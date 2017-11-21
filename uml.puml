@@ -1,0 +1,103 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+Cell ---* Board
+BasicLogic ...> GameLogic
+Board ---o CellCounter
+Board ---o BasicLogic
+Board ---* GameFlow
+BasicLogic ---* GameFlow
+HumanPlayer ---* GameFlow
+CellCounter --- GameFlow
+HumanPlayer ...> Player
+Point ---* Cell
+
+class Cell {
+    -char val_;
+    -Point *place_;
+    +Cell();
+    +Cell(Point *p, char val);
+    +char getValue() const;
+    +void setValue(char val);
+    +void setPlace(Point *p);
+    +~Cell();
+}
+
+class BasicLogic{
+    -Board *board_;
+    +BasicLogic(Board *board);
+    +vector<Point> getPossibleMoves(Player &curr, Player &opp);
+    +vector<Point> checkSides(int i, int j, Player &curr, Player &opp);
+    +vector<Point> checkDiag(int i, int j, Player &curr, Player &opp);
+    +vector<Point> checkAround(int i, int j, Player &curr, Player &opp);
+    +void printOptions(vector<Point> &moves);
+    +void addIfValid(vector<Point> *moves, Point *p);
+}
+
+class Board {
+    -Cell **board_;
+    -int bSize;
+    +Board(int size);
+    +void print();
+    +int getSize() const;
+    +char getStatus(Point p) const;
+    +void putChoice(Point &p, Player &curr, Player &opp);
+    +void flipSides(int i, int j, Player &curr, Player &opp);
+    +void flipDiag(int i, int j, Player &curr, Player &opp);
+    +~Board();
+}
+
+class CellCounter {
+    -Board *board_;
+    -int xCounter_;
+    -int oCounter_;
+    -int spaceCounter_;
+    +CellCounter(Board *board);
+    +void count();
+    +int getXCounter() const;
+    +int getOCounter() const;
+    +int getSpaceCounter() const;
+}
+
+class GameFlow {
+    -char currentPlayer_;
+    -int *turnsLeft_;
+    -Board *board_;
+    -GameLogic *logic_;
+    +GameFlow(int boardSize);
+    +void playOneTurn(Player &curr, Player &opp, CellCounter &cc);
+    +void run();
+    +~GameFlow();
+}
+
+interface GameLogic {
+    +virtual vector<Point> getPossibleMoves(Player &curr, Player &opp) = 0;
+}
+
+class HumanPlayer {
+    -char symbol_;
+    +HumanPlayer(char symbol);
+    +Point makeMove(vector<Point> &moves);
+    +char getSymbol() const;
+    +Point getValidInput();
+}
+
+interface Player {
+    +virtual Point makeMove(vector<Point> &possibleMoves) = 0;
+    +virtual char getSymbol() const = 0;
+}
+
+class Point {
+    -int x_;
+    -int y_;
+    +Point();
+    +Point(int x, int y);
+    +int getX() const;
+    +int getY() const;
+    +void setPoint(int x, int y);
+    +bool operator ==(const Point &p) const;
+    +bool operator <(const Point &p) const;
+    +void print();
+}
+
+@enduml
