@@ -15,6 +15,7 @@ private:
 public:
     //Board();
     Board(int size);
+    Board(Board *copyBoard);
     void print();
     int getSize() const;
     char getStatus(Point p) const;

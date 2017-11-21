@@ -30,6 +30,20 @@ Board::Board(int size) {
     board_[bSize / 2][(bSize / 2) - 1].setValue('X');
 }
 
+Board::Board(Board *copyBoard) {
+    bSize = copyBoard->getSize();
+    board_ = new Cell*[bSize];
+    Point *p;
+    for (int i = 0;i < bSize;i++) {
+        board_[i] = new Cell[bSize];
+        for (int j = 0;j < bSize;j++) {
+            p = new Point(i, j);
+            board_[i][j].setValue(copyBoard->getStatus(Point(i,j)));
+            board_[i][j].setPlace(p);
+            delete p;
+        }
+    }
+}
 /**
  * prints the board
  */

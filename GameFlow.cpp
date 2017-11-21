@@ -3,6 +3,7 @@
 //
 
 #include "GameFlow.h"
+#include "AIPlayer.h"
 
 /**
  * constructor for game flow
@@ -21,11 +22,11 @@ GameFlow::GameFlow(int boardSize) {
  * runs the game.
  */
 void GameFlow::run(Player &player1, int whichPlayer, char symbol) {
-    //HumanPlayer player1 = HumanPlayer('X');
-    //if (whichPlayer == 1)
-        HumanPlayer player2 = HumanPlayer('O');
-    //else Player player2 = AIPlayer(symbol, board_, player1);
-    Player &p1 = player1, &p2 = player2;
+    Player *player2;
+    if (whichPlayer == 1)
+        player2 = new HumanPlayer('O');
+    else player2 = new AIPlayer(symbol, board_, &player1);
+    Player &p1 = player1, &p2 = *player2;
     CellCounter cellCounter = CellCounter(board_);
     CellCounter &cc = cellCounter;
     while (true) {
