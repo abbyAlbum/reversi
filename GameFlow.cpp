@@ -56,6 +56,7 @@ void GameFlow::playOneTurn(Player &curr, Player &opp, CellCounter &cc) {
     vector<Point> moves;
     Point choice;
     moves = logic_->getPossibleMoves(curr, opp);
+    printOptions(moves);
     choice = curr.makeMove(moves);
     if (choice.getX() == -1 && choice.getY() == -1) {
         if (currentPlayer_ == 'X') turnsLeft_[0] = 1;
@@ -70,6 +71,21 @@ void GameFlow::playOneTurn(Player &curr, Player &opp, CellCounter &cc) {
     board_->putChoice(ch, curr, opp);
     cc.count();
     currentPlayer_ = opp.getSymbol();
+}
+
+/**
+ * prints the possible moves
+ * @param moves vector
+ */
+void GameFlow::printOptions(vector<Point> &moves) {
+    for (int i = 0; i < moves.size(); ++i) {
+        if (i == moves.size() - 1) moves[i].print();
+        else {
+            moves[i].print();
+            cout << ",";
+        }
+    }
+    cout << endl;
 }
 
 /**

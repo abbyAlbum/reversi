@@ -22,6 +22,7 @@ public:
     GameFlow(int boardSize);
     void playOneTurn(Player &curr, Player &opp, CellCounter &cc);
     void run(Player &player, int whichPlayer, char symbol);
+    void printOptions(vector<Point> &moves);
     ~GameFlow();
 };
 

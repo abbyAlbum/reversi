@@ -19,6 +19,7 @@ public:
     void print();
     int getSize() const;
     char getStatus(Point p) const;
+    void setStatus(char symbol, Point p);
     void putChoice(Point &p, Player &curr, Player &opp);
     void flipSides(int i, int j, Player &curr, Player &opp);
     void flipDiag(int i, int j, Player &curr, Player &opp);

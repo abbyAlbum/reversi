@@ -32,7 +32,7 @@ vector<Point> BasicLogic::getPossibleMoves(Player &curr, Player &opp) {
     vector<Point> &moves = possibleMoves;
     sort(possibleMoves.begin(), possibleMoves.end());
     possibleMoves.erase(unique(possibleMoves.begin(), possibleMoves.end()), possibleMoves.end());
-    printOptions(moves);
+    //printOptions(moves);
     return possibleMoves;
 }
 

@@ -38,7 +38,7 @@ Board::Board(Board *copyBoard) {
         board_[i] = new Cell[bSize];
         for (int j = 0;j < bSize;j++) {
             p = new Point(i, j);
-            board_[i][j].setValue(copyBoard->getStatus(Point(i,j)));
+            board_[i][j].setValue(copyBoard->getStatus(*p));
             board_[i][j].setPlace(p);
             delete p;
         }
@@ -77,6 +77,10 @@ int Board::getSize() const { return bSize; }
  */
 char Board::getStatus(Point p) const {
     board_[p.getX()][p.getY()].getValue();
+}
+
+void Board::setStatus(char symbol, Point p) {
+    board_[p.getX()][p.getY()].setValue(symbol);
 }
 
 /**
