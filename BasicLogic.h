@@ -27,6 +27,7 @@ public:
     vector<Point> checkAround(int i, int j, Player &curr, Player &opp);
     void printOptions(vector<Point> &moves);
     void addIfValid(vector<Point> *moves, Point *p);
+    ~BasicLogic(){}
 };
 
 

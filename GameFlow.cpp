@@ -20,10 +20,12 @@ GameFlow::GameFlow(int boardSize) {
 /**
  * runs the game.
  */
-void GameFlow::run() {
-    HumanPlayer player1 = HumanPlayer('X');
-    HumanPlayer player2 = HumanPlayer('O');
-    HumanPlayer &p1 = player1, &p2 = player2;
+void GameFlow::run(Player &player1, int whichPlayer, char symbol) {
+    //HumanPlayer player1 = HumanPlayer('X');
+    //if (whichPlayer == 1)
+        HumanPlayer player2 = HumanPlayer('O');
+    //else Player player2 = AIPlayer(symbol, board_, player1);
+    Player &p1 = player1, &p2 = player2;
     CellCounter cellCounter = CellCounter(board_);
     CellCounter &cc = cellCounter;
     while (true) {

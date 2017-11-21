@@ -19,6 +19,7 @@ public:
     Point makeMove(vector<Point> &moves);
     char getSymbol() const;
     Point getValidInput();
+    ~HumanPlayer() {}
 };
 
 
