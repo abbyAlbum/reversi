@@ -25,7 +25,6 @@ public:
     vector<Point> checkSides(int i, int j, Player &curr, Player &opp);
     vector<Point> checkDiag(int i, int j, Player &curr, Player &opp);
     vector<Point> checkAround(int i, int j, Player &curr, Player &opp);
-    void printOptions(vector<Point> &moves);
     void addIfValid(vector<Point> *moves, Point *p);
     ~BasicLogic(){}
 };

@@ -18,7 +18,11 @@ AIPlayer::AIPlayer(char symbol, Board *board, Player *opp) {
     opp_ = opp;
 }
 
-
+/**
+ * makes the move for the AI player
+ * @param moves
+ * @return the move
+ */
 Point AIPlayer::makeMove(vector<Point> &moves) {
     int counter = board_->getSize() * board_->getSize() + 1;
     Point temp;
@@ -45,6 +49,12 @@ Point AIPlayer::makeMove(vector<Point> &moves) {
     return temp;
 }
 
+/**
+ * calculates the moves grade by doing each of the other player's move
+ * @param copyBoard
+ * @param move
+ * @return the moves grade
+ */
 int AIPlayer:: makeHumanPLayerMove(Board &copyBoard, Point move) {
     move.setPoint(move.getX() - 1, move.getY() - 1);
     copyBoard.putChoice(move, *opp_,*this);
@@ -61,10 +71,18 @@ int AIPlayer:: makeHumanPLayerMove(Board &copyBoard, Point move) {
     }
 }
 
+/**
+ * gets the player's symbol
+ * @return the symbol
+ */
 char AIPlayer::getSymbol() const {
     return symbol_;
 }
 
+/**
+ * resets the copy board according to the board.
+ * @param copy
+ */
 void AIPlayer::resetCopy(Board &copy) {
     for (int i = 0; i < board_->getSize(); ++i) {
         for (int j = 0; j < board_->getSize(); ++j) {

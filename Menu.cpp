@@ -5,12 +5,21 @@
 #include "Menu.h"
 #include "HumanPlayer.h"
 
+/**
+ * constructor for menu.
+ */
 Menu::Menu() {
     symbol_ = 'X';
     player1_ = new HumanPlayer(symbol_);
 }
 
+/**
+ * runs the menu.
+ * @return 0 if the player doesn't want to play and 1 or 2 to know the
+ * player type to play against.
+ */
 int Menu::runMenu() {
+    //need to check valid input
     char play, oppFlag;
     cout << "Hello! Want to play a game of Othello?" << endl << "y) Yes"
          << endl << "n) No" << endl;
@@ -34,8 +43,20 @@ int Menu::runMenu() {
     else return 2;
 }
 
+/**
+ * gets the size of the board the player chose.
+ * @return the board size
+ */
 int Menu::getBoardSize() const { return boardSize_; }
 
+/**
+ * gets player 1.
+ * @return player 1
+ */
 Player& Menu::getPlayer() const { return *player1_; }
 
+/**
+ * gets the symbol for the other player.
+ * @return player 2's symbol
+ */
 char Menu::getSymbol() const { return symbol_; }

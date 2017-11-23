@@ -30,6 +30,10 @@ Board::Board(int size) {
     board_[bSize / 2][(bSize / 2) - 1].setValue('X');
 }
 
+/**
+ * a copy constructor for board
+ * @param copyBoard
+ */
 Board::Board(Board *copyBoard) {
     bSize = copyBoard->getSize();
     board_ = new Cell*[bSize];
@@ -44,6 +48,7 @@ Board::Board(Board *copyBoard) {
         }
     }
 }
+
 /**
  * prints the board
  */
@@ -79,6 +84,11 @@ char Board::getStatus(Point p) const {
     board_[p.getX()][p.getY()].getValue();
 }
 
+/**
+ * sets the status of a certain cell
+ * @param symbol to change to
+ * @param p specific cell
+ */
 void Board::setStatus(char symbol, Point p) {
     board_[p.getX()][p.getY()].setValue(symbol);
 }
@@ -376,18 +386,3 @@ Board::~Board() {
     }
     delete board_;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

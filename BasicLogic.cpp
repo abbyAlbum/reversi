@@ -250,18 +250,3 @@ vector<Point> BasicLogic::checkDiag(int i, int j, Player &curr, Player &opp) {
     }
     return moves;
 }
-
-/**
- * prints the possible moves
- * @param moves vector
- */
-void BasicLogic::printOptions(vector<Point> &moves) {
-    for (int i = 0; i < moves.size(); ++i) {
-        if (i == moves.size() - 1) moves[i].print();
-        else {
-            moves[i].print();
-            cout << ",";
-        }
-    }
-    cout << endl;
-}
