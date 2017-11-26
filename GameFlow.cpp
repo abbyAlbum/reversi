@@ -31,12 +31,7 @@ void GameFlow::run(Player &player1, int whichPlayer, char symbol) {
     CellCounter &cc = cellCounter;
     while (true) {
         board_->print();
-        cout << currentPlayer_ << ": It's your turn." << endl;
-        if (currentPlayer_ == 'X') {
-            playOneTurn(p1, p2, cc);
-        } else {
-            playOneTurn(p2, p1, cc);
-        }
+        checkPlayer(p1, p2, cc);
         if ((turnsLeft_[0] == 1 && turnsLeft_[1] == 1) || cc.getSpaceCounter() == 0) break;
     }
     board_->print();
@@ -56,7 +51,6 @@ void GameFlow::playOneTurn(Player &curr, Player &opp, CellCounter &cc) {
     vector<Point> moves;
     Point choice;
     moves = logic_->getPossibleMoves(curr, opp);
-    printOptions(moves);
     choice = curr.makeMove(moves);
     if (choice.getX() == -1 && choice.getY() == -1) {
         if (currentPlayer_ == 'X') turnsLeft_[0] = 1;
@@ -74,18 +68,19 @@ void GameFlow::playOneTurn(Player &curr, Player &opp, CellCounter &cc) {
 }
 
 /**
- * prints the possible moves
- * @param moves vector
+ * activates playOneTurn of the right player according to their signs
+ * @param p1 player
+ * @param p2 player
+ * @param cc cell counter
  */
-void GameFlow::printOptions(vector<Point> &moves) {
-    for (int i = 0; i < moves.size(); ++i) {
-        if (i == moves.size() - 1) moves[i].print();
-        else {
-            moves[i].print();
-            cout << ",";
-        }
+void GameFlow::checkPlayer(Player &p1, Player &p2, CellCounter &cc) {
+    if (currentPlayer_ == 'X') {
+        if (p1.getSymbol() == 'X') playOneTurn(p1, p2, cc);
+        else playOneTurn(p2, p1, cc);
+    } else {
+        if (p1.getSymbol() == 'O') playOneTurn(p1, p2, cc);
+        else playOneTurn(p2, p1, cc);
     }
-    cout << endl;
 }
 
 /**

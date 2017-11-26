@@ -16,6 +16,7 @@ public:
     AIPlayer(char symbol, Board *board, Player *opp);
     Point makeMove(vector<Point> &moves);
     int makeHumanPLayerMove(Board &copyBoard, Point move);
+    void playerMove(Point &move);
     char getSymbol() const;
     void resetCopy(Board &copy);
 

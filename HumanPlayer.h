@@ -18,6 +18,8 @@ public:
     HumanPlayer(char symbol);
     Point makeMove(vector<Point> &moves);
     char getSymbol() const;
+    void playerMove(vector<Point> &moves);
+    void printOptions(vector<Point> &moves);
     Point getValidInput();
     ~HumanPlayer() {}
 };

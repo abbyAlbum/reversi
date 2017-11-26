@@ -18,6 +18,7 @@ HumanPlayer::HumanPlayer(char symbol) {
  * @return the player's choice
  */
 Point HumanPlayer::makeMove(vector<Point> &moves) {
+    playerMove(moves);
     if (moves.empty()) {
         cout << "You have no possible moves, other player's turn." << endl;
         return Point(-1, -1);
@@ -66,3 +67,27 @@ Point HumanPlayer::getValidInput() {
  * @return symbol
  */
 char HumanPlayer::getSymbol() const { return symbol_; }
+
+/**
+ * prints the player's turn flow
+ * @param moves
+ */
+void HumanPlayer::playerMove(vector<Point> &moves) {
+    cout << symbol_ << ": It's your turn." << endl;
+    printOptions(moves);
+}
+
+/**
+ * prints the possible moves
+ * @param moves vector
+ */
+void HumanPlayer::printOptions(vector<Point> &moves) {
+    for (int i = 0; i < moves.size(); ++i) {
+        if (i == moves.size() - 1) moves[i].print();
+        else {
+            moves[i].print();
+            cout << ",";
+        }
+    }
+    cout << endl;
+}

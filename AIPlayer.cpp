@@ -46,6 +46,7 @@ Point AIPlayer::makeMove(vector<Point> &moves) {
             copyBoard.putChoice(move, curr, oppo);
         }
     }
+    playerMove(temp);
     return temp;
 }
 
@@ -90,4 +91,14 @@ void AIPlayer::resetCopy(Board &copy) {
             copy.setStatus(board_->getStatus(p), p);
         }
     }
+}
+
+/**
+ * prints the player's choice
+ * @param move
+ */
+void AIPlayer::playerMove(Point &move) {
+    cout << symbol_ << " has played ";
+    move.print();
+    cout << endl << endl;
 }
