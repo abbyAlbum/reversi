@@ -2,8 +2,8 @@
 // Created by eyal moskowitz 314074303 on 26/10/17.
 //
 #include <iostream>
-#include "./include/GameFlow.h"
-#include "./include/Menu.h"
+#include "GameFlow.h"
+#include "Menu.h"
 
 using namespace std;
 
