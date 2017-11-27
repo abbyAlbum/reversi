@@ -33,13 +33,13 @@ Point AIPlayer::makeMove(vector<Point> &moves) {
         BasicLogic bl = BasicLogic(&copyBoard);
         Point move = Point(moves[i].getX() - 1, moves[i].getY() - 1);
         copyBoard.putChoice(move, curr, oppo);
+        move.setPoint(move.getX() + 1, move.getY() + 1);
         //for each move copyboard gets the possible moves of the human player
         vector<Point> moves2 = bl.getPossibleMoves(oppo, curr);
         for(int j = 0; j < moves2.size(); j++) {
             int newCounter = makeHumanPLayerMove(copyBoard, moves2[j]);
             if(newCounter < counter) {
                 counter = newCounter;
-                move.setPoint(move.getX() + 1, move.getY() + 1);
                 temp = move;
             }
             resetCopy(copyBoard);
