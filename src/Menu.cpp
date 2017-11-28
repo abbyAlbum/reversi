@@ -34,7 +34,7 @@ int Menu::runMenu() {
     cout << "\t\t\t\t for white pick O." << endl;
     do {
         cin >> symbol_;
-    } while (symbol_ != 'X' || symbol_ != 'O');
+    } while (symbol_ != 'X' && symbol_ != 'O');
     delete player1_;
     player1_ = new HumanPlayer(symbol_);
     if (symbol_ == 'X') symbol_ = 'O';

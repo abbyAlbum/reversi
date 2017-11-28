@@ -25,7 +25,7 @@ AIPlayer::AIPlayer(char symbol, Board *board, Player *opp) {
  */
 Point AIPlayer::makeMove(vector<Point> &moves) {
     int counter = board_->getSize() * board_->getSize() + 1;
-    Point temp;
+    Point temp, move, currChoice;
     Player &curr = *this, &oppo = *opp_;
     if(moves.empty()) {
         cout << "Computer had no possible moves. Good job!" << endl;
@@ -35,7 +35,8 @@ Point AIPlayer::makeMove(vector<Point> &moves) {
     for(int i = 0; i < moves.size(); i++) {
         Board copyBoard = Board(board_);
         BasicLogic bl = BasicLogic(&copyBoard);
-        Point move = Point(moves[i].getX() - 1, moves[i].getY() - 1);
+        move = Point(moves[i].getX() - 1, moves[i].getY() - 1);
+        currChoice = move;
         copyBoard.putChoice(move, curr, oppo);
         move.setPoint(move.getX() + 1, move.getY() + 1);
         //for each move copyboard gets the possible moves of the human player
@@ -48,7 +49,7 @@ Point AIPlayer::makeMove(vector<Point> &moves) {
                 temp = move;
             }
             resetCopy(copyBoard);
-            copyBoard.putChoice(move, curr, oppo);
+            copyBoard.putChoice(currChoice, curr, oppo);
         }
     }
     playerMove(temp);
