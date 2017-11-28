@@ -27,6 +27,10 @@ Point AIPlayer::makeMove(vector<Point> &moves) {
     int counter = board_->getSize() * board_->getSize() + 1;
     Point temp;
     Player &curr = *this, &oppo = *opp_;
+    if(moves.empty()) {
+        cout << "Computer had no possible moves. Good job!" << endl;
+        return Point(-1, -1);
+    }
     //go over all the moves for the computer and play them on the copy board
     for(int i = 0; i < moves.size(); i++) {
         Board copyBoard = Board(board_);
@@ -36,6 +40,7 @@ Point AIPlayer::makeMove(vector<Point> &moves) {
         move.setPoint(move.getX() + 1, move.getY() + 1);
         //for each move copyboard gets the possible moves of the human player
         vector<Point> moves2 = bl.getPossibleMoves(oppo, curr);
+        if(moves2.empty()) return move;
         for(int j = 0; j < moves2.size(); j++) {
             int newCounter = makeHumanPLayerMove(copyBoard, moves2[j]);
             if(newCounter < counter) {
