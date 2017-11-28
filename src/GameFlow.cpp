@@ -39,6 +39,7 @@ void GameFlow::run(Player &player1, int whichPlayer, char symbol) {
         cout << "Player 1 wins with " << cc.getXCounter() << " tiles" << endl;
     else
         cout << "Player 2 wins with " << cc.getOCounter() << " tiles" << endl;
+    delete player2;
 }
 
 /**
