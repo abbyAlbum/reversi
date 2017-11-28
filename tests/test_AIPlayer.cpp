@@ -5,16 +5,16 @@
 #include "../gtest_src/gtest/gtest.h"
 #include "../include/AIPlayer.h"
 
-Board b = Board(8);
+Board board = Board(8);
 HumanPlayer p = HumanPlayer('X');
-AIPlayer ai = AIPlayer('O', &b, &p);
+AIPlayer ai = AIPlayer('O', &board, &p);
 
 /**
  * Check that the correct move is returned when human player starts the game
  */
 TEST(AIPlayerTest, makeMove) {
     Point po = Point(2, 3);
-    b.putChoice(po, p, ai);
+    board.putChoice(po, p, ai);
     Point p1 = Point(3, 3);
     Point p2 = Point(3, 5);
     Point p3 = Point(5, 3);
@@ -30,12 +30,12 @@ TEST(AIPlayerTest, makeMove) {
  */
 TEST(AIPlayerTest2, makeMove) {
     Point po = Point(2, 3);
-    b.putChoice(po, p, ai);
+    board.putChoice(po, p, ai);
     vector<Point> v;
     EXPECT_EQ(Point(-1, -1), ai.makeMove(v));
 }
 
-AIPlayer ai2 = AIPlayer('X', &b, &p);
+AIPlayer ai2 = AIPlayer('X', &board, &p);
 
 /**
  * Check that the correct move is returned when AIplayer starts the game
