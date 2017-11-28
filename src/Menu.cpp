@@ -24,13 +24,17 @@ int Menu::runMenu() {
     cout << "Hello! Want to play a game of Othello?" << endl << "y) Yes"
          << endl << "n) No" << endl;
     cin >> play;
-    if (play == 'n') return 0;
+    if (play == 'n' || play == 'N') return 0;
     cout << "Let's set up the game." << endl;
-    cout << "Pick the board size: 6 or 8." << endl;
-    cin >> boardSize_;
+    cout << "Pick the board size" << endl;
+    do {
+        cin >> boardSize_;
+    } while (boardSize_ % 2 != 0 || boardSize_ >=10);
     cout << "Pick your color: for black pick X." << endl;
     cout << "\t\t\t\t for white pick O." << endl;
-    cin >> symbol_;
+    do {
+        cin >> symbol_;
+    } while (symbol_ != 'X' || symbol_ != 'O');
     delete player1_;
     player1_ = new HumanPlayer(symbol_);
     if (symbol_ == 'X') symbol_ = 'O';
@@ -38,7 +42,9 @@ int Menu::runMenu() {
     cout << "Who do you want to play against?" << endl;
     cout << "Press a to play against a human player." << endl;
     cout << "Press b to play against the computer." << endl;
-    cin >> oppFlag;
+    do {
+        cin >> oppFlag;
+    } while (oppFlag != 'a' && oppFlag != 'b');
     if (oppFlag == 'a') return 1;
     else return 2;
 }
@@ -60,3 +66,10 @@ Player& Menu::getPlayer() const { return *player1_; }
  * @return player 2's symbol
  */
 char Menu::getSymbol() const { return symbol_; }
+
+/**
+ * d'tor for Menu.
+ */
+Menu::~Menu() {
+    delete player1_;
+}

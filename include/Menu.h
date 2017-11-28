@@ -21,6 +21,7 @@ public:
     int getBoardSize() const;
     Player& getPlayer() const;
     char getSymbol() const;
+    ~Menu();
 };
 
 

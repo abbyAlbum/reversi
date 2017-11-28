@@ -13,11 +13,12 @@ using namespace std;
  */
 int main() {
     int whichPlayer;
-    Menu menu = Menu();
-    if (!(whichPlayer = menu.runMenu()))
+    Menu *menu = new Menu();
+    if (!(whichPlayer = menu->runMenu()))
         return 0;
-    GameFlow *gf = new GameFlow(menu.getBoardSize());
-    gf->run(menu.getPlayer(), whichPlayer, menu.getSymbol());
+    GameFlow *gf = new GameFlow(menu->getBoardSize());
+    gf->run(menu->getPlayer(), whichPlayer, menu->getSymbol());
+    delete menu;
     delete gf;
     return 0;
 }
