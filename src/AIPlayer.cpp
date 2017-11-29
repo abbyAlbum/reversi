@@ -26,15 +26,15 @@ AIPlayer::AIPlayer(char symbol, Board *board, Player *opp) {
 Point AIPlayer::makeMove(vector<Point> &moves) {
     int counter = board_->getSize() * board_->getSize() + 1;
     Point temp, move, currChoice;
+    Board copyBoard = Board(board_);
+    BasicLogic bl = BasicLogic(&copyBoard);
     Player &curr = *this, &oppo = *opp_;
     if(moves.empty()) {
-        cout << "Computer had no possible moves. Good job!" << endl;
+        cout << "Computer had no possible moves." << endl;
         return Point(-1, -1);
     }
     //go over all the moves for the computer and play them on the copy board
     for(int i = 0; i < moves.size(); i++) {
-        Board copyBoard = Board(board_);
-        BasicLogic bl = BasicLogic(&copyBoard);
         move = Point(moves[i].getX() - 1, moves[i].getY() - 1);
         currChoice = move;
         copyBoard.putChoice(move, curr, oppo);
@@ -51,6 +51,7 @@ Point AIPlayer::makeMove(vector<Point> &moves) {
             resetCopy(copyBoard);
             copyBoard.putChoice(currChoice, curr, oppo);
         }
+        resetCopy(copyBoard);
     }
     playerMove(temp);
     return temp;

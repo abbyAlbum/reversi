@@ -37,8 +37,9 @@ void GameFlow::run(Player &player1, int whichPlayer, char symbol) {
     board_->print();
     if (cc.getXCounter() > cc.getOCounter())
         cout << "Player 1 wins with " << cc.getXCounter() << " tiles" << endl;
-    else
+    else if (cc.getXCounter() < cc.getOCounter())
         cout << "Player 2 wins with " << cc.getOCounter() << " tiles" << endl;
+    else cout << "It's a tie! gg" << endl;
     delete player2;
 }
 

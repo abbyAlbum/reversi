@@ -31,7 +31,7 @@ int Menu::runMenu() {
         cin >> boardSize_;
     } while (boardSize_ % 2 != 0 || boardSize_ >=10);
     cout << "Pick your color: for black pick X." << endl;
-    cout << "\t\t\t\t for white pick O." << endl;
+    cout << "\t\t for white pick O." << endl;
     do {
         cin >> symbol_;
     } while (symbol_ != 'X' && symbol_ != 'O');
