@@ -13,6 +13,15 @@ HumanPlayer::HumanPlayer(char symbol) {
 }
 
 /**
+ * c'tor for HumanPlayer
+ * @param color
+ */
+HumanPlayer::HumanPlayer(int color) {
+    if (color == BLACK) symbol_ = 'X';
+    if (color == WHITE) symbol_ = 'O';
+}
+
+/**
  * lets the player to make a move
  * @param moves possible moves for the player
  * @return the player's choice

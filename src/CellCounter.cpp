@@ -34,19 +34,12 @@ void CellCounter::count() {
 }
 
 /**
- * gets the num of 2nd player's occupied cells
- * @return num of cells
+ * gives a specific counter according to the given symbol
+ * @param symbol
+ * @return counter
  */
-int CellCounter::getOCounter() const { return oCounter_; }
-
-/**
- * gets the num of unoccupied
- * @return num of cells
- */
-int CellCounter::getSpaceCounter() const { return spaceCounter_; }
-
-/**
- * gets the num of 1st player's occupied cells
- * @return num of cells
- */
-int CellCounter::getXCounter() const { return xCounter_; }
+int CellCounter::getCounter(char symbol) const {
+    if (symbol == 'X') return xCounter_;
+    if (symbol == 'O') return oCounter_;
+    if (symbol == ' ') return spaceCounter_;
+}

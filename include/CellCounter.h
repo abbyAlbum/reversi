@@ -17,9 +17,7 @@ private:
 public:
     CellCounter(Board *board);
     void count();
-    int getXCounter() const;
-    int getOCounter() const;
-    int getSpaceCounter() const;
+    int getCounter(char symbol) const;
 };
 
 

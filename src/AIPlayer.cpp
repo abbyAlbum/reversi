@@ -70,11 +70,11 @@ int AIPlayer:: makeHumanPLayerMove(Board &copyBoard, Point move) {
     CellCounter &cc = cellCounter;
     cc.count();
     if(symbol_ == 'X') {
-        int oCounter = cc.getOCounter() - cc.getXCounter();
+        int oCounter = cc.getCounter('O') - cc.getCounter('X');
         return oCounter;
     }
     if(symbol_ == 'O') {
-        int xCounter = cc.getXCounter() - cc.getOCounter();
+        int xCounter = cc.getCounter('X') - cc.getCounter('O');
         return xCounter;
     }
 }

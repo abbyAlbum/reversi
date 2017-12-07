@@ -32,13 +32,13 @@ void GameFlow::run(Player &player1, int whichPlayer, char symbol) {
     while (true) {
         board_->print();
         checkPlayer(p1, p2, cc);
-        if ((turnsLeft_[0] == 1 && turnsLeft_[1] == 1) || cc.getSpaceCounter() == 0) break;
+        if ((turnsLeft_[0] == 1 && turnsLeft_[1] == 1) || cc.getCounter(' ') == 0) break;
     }
     board_->print();
-    if (cc.getXCounter() > cc.getOCounter())
-        cout << "Player 1 wins with " << cc.getXCounter() << " tiles" << endl;
-    else if (cc.getXCounter() < cc.getOCounter())
-        cout << "Player 2 wins with " << cc.getOCounter() << " tiles" << endl;
+    if (cc.getCounter('X') > cc.getCounter('O'))
+        cout << "Player 1 wins with " << cc.getCounter('X') << " tiles" << endl;
+    else if (cc.getCounter('X') < cc.getCounter('O'))
+        cout << "Player 2 wins with " << cc.getCounter('O') << " tiles" << endl;
     else cout << "It's a tie! gg" << endl;
     delete player2;
 }
