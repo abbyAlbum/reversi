@@ -15,21 +15,22 @@ Menu::Menu() {
 
 /**
  * runs the menu.
- * @return 0 if the player doesn't want to play and 1 or 2 to know the
+ * @return 1, 2 or 3 to know the
  * player type to play against.
  */
 int Menu::runMenu() {
     //need to check valid input
-    char play, oppFlag;
-    cout << "Hello! Want to play a game of Othello?" << endl << "y) Yes"
-         << endl << "n) No" << endl;
-    cin >> play;
-    if (play == 'n' || play == 'N') return 0;
-    cout << "Let's set up the game." << endl;
-    cout << "Pick the board size" << endl;
+    int oppFlag;
+    cout << "Welcome to Reversi!" << endl << endl;
+    cout << "Who do you want to play against?" << endl;
+    cout << "1) A human player." << endl;
+    cout << "2) An AI player" << endl;
+    cout << "3) A player online" << endl;
     do {
-        cin >> boardSize_;
-    } while (boardSize_ % 2 != 0 || boardSize_ >=10);
+        cin >> oppFlag;
+    } while (oppFlag != 1 && oppFlag != 2 && oppFlag != 3);
+    if (oppFlag == 3)
+        return oppFlag;
     cout << "Pick your color: for black pick X." << endl;
     cout << "\t\t for white pick O." << endl;
     do {
@@ -39,14 +40,8 @@ int Menu::runMenu() {
     player1_ = new HumanPlayer(symbol_);
     if (symbol_ == 'X') symbol_ = 'O';
     else symbol_ = 'X';
-    cout << "Who do you want to play against?" << endl;
-    cout << "Press a to play against a human player." << endl;
-    cout << "Press b to play against the computer." << endl;
-    do {
-        cin >> oppFlag;
-    } while (oppFlag != 'a' && oppFlag != 'b');
-    if (oppFlag == 'a') return 1;
-    else return 2;
+
+    return oppFlag;
 }
 
 /**
