@@ -4,7 +4,7 @@
 #include <iostream>
 #include "./include/GameFlow.h"
 #include "./include/Menu.h"
-#include "include/RemoteGame.h"
+#include "./include/RemoteGame.h"
 
 using namespace std;
 

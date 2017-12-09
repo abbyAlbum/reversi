@@ -26,7 +26,6 @@ class RemoteGame {
 public:
     RemoteGame(const char *serverIP, int serverPort, int boardSize);
     void run();
-    int playOneTurn(Player *curr, Player *opp, CellCounter &cc, int &i);
 private:
     Board *board_;
     GameLogic *logic_;
@@ -35,7 +34,8 @@ private:
     int clientSocket_;
 
     void connectToServer();
-    bool readFromServer(Player *curr, Player *opp, string &point);
+    bool readFromServer(Player *curr, Player *opp, int x, int y);
+    int playOneTurn(Player *curr, Player *opp, CellCounter &cc, int &i);
 };
 
 

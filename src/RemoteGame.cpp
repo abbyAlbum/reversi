@@ -78,34 +78,46 @@ void RemoteGame::run() {
 int RemoteGame::playOneTurn(Player *curr, Player *opp, CellCounter &cc, int &i) {
     int n;
     bool flag = false;
-    string point;
+    int x, y;
     //will happen every time except for the first player's first turn
     if (i != 1 || curr->getSymbol() != 'X') {
-        n = read(clientSocket_, &point, sizeof(point));
+        n = read(clientSocket_, &x, sizeof(int));
         if (n == -1) throw "Error reading from server.";
-        if (!strcmp(point.c_str(), "end")) return 0;
-        flag = readFromServer(curr, opp, point);
+        n = read(clientSocket_, &y, sizeof(int));
+        if (n == -1) throw "Error reading from server.";
+        if (x == -1) return 0;
+        flag = readFromServer(curr, opp, x, y);
     }
     vector<Point> moves = logic_->getPossibleMoves(*curr, *opp);
     Point choice = curr->makeMove(moves);
     //if current player has no moves left
     if (choice.getX() == -1) {
+        x = -2, y = -2;
         if (flag) {
-            n = write(clientSocket_, "end", END_SIZE);
+            x = choice.getX();
+            y = choice.getY();
+            n = write(clientSocket_, &x, sizeof(int));
+            if (n == -1) throw "Error writing to socket.";
+            n = write(clientSocket_, &y, sizeof(int));
             if (n == -1) throw "Error writing to socket.";
             return 0;
         }
-        else n = write(clientSocket_, "NoMove", NO_MOVE_SIZE);
+        n = write(clientSocket_, &x, sizeof(int));
+        if (n == -1) throw "Error writing to socket.";
+        n = write(clientSocket_, &y, sizeof(int));
         if (n == -1) throw "Error writing to socket.";
     }
     //makes the move.
     choice.setPoint(choice.getX() - 1, choice.getY() - 1);
+    x = choice.getX(), y = choice.getY();
     board_->putChoice(choice, *curr, *opp);
     cc.count();
     cout << "Current board:" << endl << endl;
     board_->print();
     cout << "waiting for other player's move" << endl << endl;
-    n = write(clientSocket_, choice.getX() + "," + choice.getY(), POINT_SIZE);
+    n = write(clientSocket_, &x, sizeof(int));
+    if (n == -1) throw "Error writing to socket.";
+    n = write(clientSocket_, &y, sizeof(int));
     if (n == -1) throw "Error writing to socket.";
     return 1;
 }
@@ -117,13 +129,11 @@ int RemoteGame::playOneTurn(Player *curr, Player *opp, CellCounter &cc, int &i) 
  * @param point string
  * @return false if player played a move, true if he had no moves
  */
-bool RemoteGame::readFromServer(Player *curr, Player *opp, string &point) {
+bool RemoteGame::readFromServer(Player *curr, Player *opp, int x, int y) {
     bool flag = false;
     Point choice;
-    if (!strcmp(point.c_str(), "NoMove")) flag = true;
+    if (x == -2) flag = true;
     else {
-        int x = (int) point[0];
-        int y = (int) point[2];
         choice = Point(x, y);
         board_->putChoice(choice, *opp, *curr);
         cout << "Current board:" << endl << endl;
