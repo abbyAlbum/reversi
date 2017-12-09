@@ -61,7 +61,7 @@ void RemoteGame::run() {
         i++;
     }
     if (cc.getCounter(curr->getSymbol()) > cc.getCounter(opp->getSymbol()))
-        cout << "You Win! with " << endl;
+        cout << "You Win!" << endl;
     else if (cc.getCounter(curr->getSymbol()) < cc.getCounter(opp->getSymbol()))
         cout << "You Lose :(" << endl;
     else cout << "It's a tie! gg" << endl;
@@ -110,6 +110,9 @@ int RemoteGame::playOneTurn(Player *curr, Player *opp, CellCounter &cc, int &i) 
     //makes the move.
     choice.setPoint(choice.getX() - 1, choice.getY() - 1);
     x = choice.getX(), y = choice.getY();
+    if(x == -2 && y == -2) {
+        return 1;
+    }
     board_->putChoice(choice, *curr, *opp);
     cc.count();
     cout << "Current board:" << endl << endl;

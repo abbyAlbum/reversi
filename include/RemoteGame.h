@@ -4,9 +4,6 @@
 
 #ifndef EX1_REMOTEGAME_H
 #define EX1_REMOTEGAME_H
-#define NO_MOVE_SIZE 7
-#define END_SIZE 4
-#define POINT_SIZE 4
 
 #include <stdio.h>
 #include "Board.h"
