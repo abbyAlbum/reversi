@@ -95,6 +95,9 @@ void Server::handleClient(int clientSocket, int clientSocket2) {
 int Server:: passMessage(int &clientSocket1, int &clientSocket2) {
     int n;
     int x, y;
+//    if(x == -1 && y == -1) {
+//        return 2;
+//    }
     n = read(clientSocket1, &x, sizeof(int));
     if (n == -1) {
         cout << "Error reading X" << endl;
@@ -107,7 +110,7 @@ int Server:: passMessage(int &clientSocket1, int &clientSocket2) {
     }
     if (n == 0) {
         cout << "Client disconnected" << endl;
-        return 2;
+        return 0;
     }
     n = write(clientSocket2, &x, sizeof(int));
     if (n == -1) {
@@ -117,7 +120,7 @@ int Server:: passMessage(int &clientSocket1, int &clientSocket2) {
     if (n == -1) {
         cout << "Error writing to socket" << endl;
     }
-    if (x == -1) {
+    if (x == -2 && y == -2) {
         return 0;
     }
     return 1;

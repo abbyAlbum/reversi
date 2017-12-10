@@ -31,8 +31,9 @@ private:
     int clientSocket_;
 
     void connectToServer();
-    bool readFromServer(Player *curr, Player *opp, int x, int y);
+    bool readFromServer(Player *curr, Player *opp, int x, int y, CellCounter &cc);
     int playOneTurn(Player *curr, Player *opp, CellCounter &cc, int &i);
+    void socketWrite(int x, int y);
 };
 
 
