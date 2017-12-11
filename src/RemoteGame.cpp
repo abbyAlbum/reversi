@@ -17,6 +17,9 @@ RemoteGame::RemoteGame(const char *serverIP, int serverPort, int boardSize) {
     logic_ = new BasicLogic(board_);
 }
 
+/**
+ * Connects to the server.
+ */
 void RemoteGame::connectToServer() {
     // Create a socket point
     clientSocket_ = socket(AF_INET, SOCK_STREAM, 0);
@@ -50,6 +53,10 @@ void RemoteGame::run() {
     //reading the number that represents the color
     n = read(clientSocket_, &color, sizeof(color));
     if (n == -1) throw "Error reading from server.";
+    if(color == 3) {
+        cout << "Waiting for other player to join..." << endl;
+        n = read(clientSocket_, &color, sizeof(color));
+    }
     Player *curr = new HumanPlayer(color);
     Player *opp = new HumanPlayer(3 - color);
     CellCounter cc = CellCounter(board_);
@@ -60,11 +67,14 @@ void RemoteGame::run() {
         if (endGame == 0 || cc.getCounter(' ') == 0) break;
         i++;
     }
+    close(clientSocket_);
     if (cc.getCounter(curr->getSymbol()) > cc.getCounter(opp->getSymbol()))
         cout << "You Win!" << endl;
     else if (cc.getCounter(curr->getSymbol()) < cc.getCounter(opp->getSymbol()))
         cout << "You Lose :(" << endl;
     else cout << "It's a tie!" << endl;
+    delete curr;
+    delete opp;
 }
 
 /**
@@ -126,7 +136,12 @@ int RemoteGame::playOneTurn(Player *curr, Player *opp, CellCounter &cc, int &i) 
 bool RemoteGame::readFromServer(Player *curr, Player *opp, int x, int y, CellCounter &cc) {
     bool flag = false;
     Point choice;
-    if (x == -1 && y == -1) flag = true;
+    if (x == -1 && y == -1) {
+        flag = true;
+        cout << "Current Board:" << endl << endl;
+        board_ ->print();
+        cout << opp->getSymbol() << " had no moves." << endl << endl;
+    }
     else {
         choice = Point(x, y);
         board_->putChoice(choice, *opp, *curr);
@@ -141,10 +156,23 @@ bool RemoteGame::readFromServer(Player *curr, Player *opp, int x, int y, CellCou
     return flag;
 }
 
+/**
+ * Writes to the socket
+ * @param x - x point
+ * @param y  - y point
+ */
 void RemoteGame::socketWrite(int x, int y) {
     int n;
     n = write(clientSocket_, &x, sizeof(int));
     if (n == -1) throw "Error writing to socket.";
     n = write(clientSocket_, &y, sizeof(int));
     if (n == -1) throw "Error writing to socket.";
+}
+
+/**
+ * Desconstrcutor.
+ */
+RemoteGame::~RemoteGame() {
+    delete board_;
+    delete logic_;
 }

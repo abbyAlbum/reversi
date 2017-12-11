@@ -23,6 +23,7 @@ class RemoteGame {
 public:
     RemoteGame(const char *serverIP, int serverPort, int boardSize);
     void run();
+    ~RemoteGame();
 private:
     Board *board_;
     GameLogic *logic_;

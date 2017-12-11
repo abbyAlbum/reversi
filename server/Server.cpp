@@ -42,9 +42,11 @@ void Server::start() {
     struct sockaddr_in clientAddress;
     socklen_t clientAddressLen;
     while (true) {
+        int num = 3;
         cout << "Waiting for client connections..." << endl;
         // Accept a new client connection
         int clientSocket = accept(serverSocket, (struct sockaddr *)&clientAddress, &clientAddressLen);
+        int n = write(clientSocket, &num, sizeof(int));
         int clientSocket2 = accept(serverSocket, (struct sockaddr *)&clientAddress, &clientAddressLen);
         cout << "Client connected" << endl;
         if (clientSocket == -1) {
@@ -92,12 +94,15 @@ void Server::handleClient(int clientSocket, int clientSocket2) {
     }
 }
 
+/**
+ * Pass messages to and from client.
+ * @param clientSocket1  - first client.
+ * @param clientSocket2  - second client.
+ * @return 1, 2, 0
+ */
 int Server:: passMessage(int &clientSocket1, int &clientSocket2) {
     int n;
     int x, y;
-//    if(x == -1 && y == -1) {
-//        return 2;
-//    }
     n = read(clientSocket1, &x, sizeof(int));
     if (n == -1) {
         cout << "Error reading X" << endl;
