@@ -32,7 +32,7 @@ int Menu::runMenu() {
     } while (oppFlag != 1 && oppFlag != 2 && oppFlag != 3);
     if (oppFlag == 3)
         return oppFlag;
-    cout << "Pick your color: for black pick X." << endl;
+    cout << "Pick your colour: for black pick X." << endl;
     cout << "\t\t for white pick O." << endl;
     do {
         cin >> symbol_;

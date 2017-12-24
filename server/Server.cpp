@@ -36,7 +36,7 @@ void Server::start() {
     *) &serverAddress, sizeof(serverAddress)) == -1) {
         throw "Error on binding";
     }
-    // Start listening to incoming connections
+    // StartCommand listening to incoming connections
     listen(serverSocket, MAX_CONNECTED_CLIENTS);
     // Define the client socket's structures
     struct sockaddr_in clientAddress;

@@ -15,13 +15,13 @@ set(SOURCE_FILES ./include/Board.h ./src/Board.cpp ./src/Point.cpp ./include/Poi
         ./include/GameLogic.h ./src/BasicLogic.cpp ./include/BasicLogic.h ./include/Player.h
         ./src/HumanPlayer.cpp ./include/HumanPlayer.h ./src/GameFlow.cpp ./include/GameFlow.h ./src/CellCounter.cpp ./include/CellCounter.h
         ./src/Menu.cpp ./include/Menu.h ./src/AIPlayer.cpp ./include/AIPlayer.h ./src/RemoteGame.cpp ./include/RemoteGame.h)
-add_executable(ex1 ${SOURCE_FILES} ./src/main.cpp)
+add_executable(ex1 ${SOURCE_FILES} ./src/main.cpp src/SubMenu.cpp src/CommandsManager.cpp src/PrintListCommand.cpp src/StartCommand.cpp src/JoinCommand.cpp)
 
 set(SOURCE_FILES_TEST ./include/Board.h ./src/Board.cpp ./src/Point.cpp ./include/Point.h ./src/Cell.cpp ./include/Cell.h
         ./include/GameLogic.h ./src/BasicLogic.cpp ./include/BasicLogic.h ./include/Player.h
         ./src/HumanPlayer.cpp ./include/HumanPlayer.h ./src/GameFlow.cpp ./include/GameFlow.h ./src/CellCounter.cpp ./include/CellCounter.h
         ./src/Menu.cpp ./include/Menu.h ./src/AIPlayer.cpp ./include/AIPlayer.h tests/gtest_main.cpp tests/test_BasicLogic.cpp tests/test_AIPlayer.cpp tests/test_Board.cpp
-        ./src/RemoteGame.cpp ./include/RemoteGame.h)
+        ./src/RemoteGame.cpp ./include/RemoteGame.h include/SubMenu.h include/Command.h include/CommandsManager.h include/PrintListCommand.h include/StartCommand.h include/JoinCommand.h)
 add_executable(ReversiTest ${SOURCE_FILES_TEST} ${SOURCE_FILES})
 target_link_libraries(ReversiTest gtest gtest_main)
 
