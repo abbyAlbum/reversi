@@ -9,8 +9,13 @@
 
 void StartCommand:: execute(vector<string> args) {
     string name;
+    string start;
     cout << "choose a name for your game" << endl;
-    cin >> name;
+    cout << "input 'start' followed by the name of your game" << endl;
+    do {
+        cin >> start, name;
+    } while (start != "start");
+
     for(int i = 0; i < args.size(); i++) {
         if(name == args[i]) {
             //return 1 to client

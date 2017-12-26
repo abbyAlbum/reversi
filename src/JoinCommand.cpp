@@ -8,7 +8,13 @@
 
 void JoinCommand:: execute(vector<string> args) {
     string name;
-    cin >> name;
+    string join;
+    cout << "choose a game from the lst" << endl;
+    cout << "input 'join' followed by the name of your game" << endl;
+    do {
+        cin >> join, name;
+    } while (join != "join" && );
+
     for(int i = 0; i < args.size(); i++) {
         if(name == args[i]) {
            // return args[i];
