@@ -17,7 +17,7 @@ void JoinCommand:: execute(vector<string> args) {
 
     for(int i = 0; i < args.size(); i++) {
         if(name == args[i]) {
-           // return args[i];
+            // return args[i];
         }
         else {
             cout << "Name not in list, try again" << endl;

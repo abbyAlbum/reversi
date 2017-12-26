@@ -9,10 +9,10 @@
 
 
 void PrintListCommand:: execute(vector<string> args) {
-        for (int i = 0; i < args.size(); i++) {
-            cout << args[i] << " ";
-        }
-        cout << endl;
+    for (int i = 0; i < args.size(); i++) {
+        cout << args[i] << " ";
+    }
+    cout << endl;
 }
 
 
