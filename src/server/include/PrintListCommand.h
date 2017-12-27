@@ -8,14 +8,17 @@
 #include <iostream>
 #include <vector>
 #include "Command.h"
+#include "GameCollection.h"
 
 
 using namespace std;
 
 class PrintListCommand : public Command{
 private:
-
+    int socket;
+    GameCollection *gameCollection;
 public:
+    PrintListCommand(GameCollection *gameCollection1);
     void execute(vector<string> args);
 };
 

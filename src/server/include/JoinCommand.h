@@ -11,13 +11,16 @@
 using namespace std;
 
 #include "Command.h"
+#include "GameCollection.h"
 
 using namespace std;
 
 class JoinCommand: public Command{
 private:
-
+    int socket;
+    GameCollection *gameCollection;
 public:
+    JoinCommand(GameCollection *gc);
     void execute(vector<string> args);
     //~Command() {}
 };

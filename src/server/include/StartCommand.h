@@ -10,13 +10,17 @@
 
 using namespace std;
 #include "Command.h"
+#include "GameCollection.h"
 
 using namespace std;
 
 class StartCommand : public Command{
 private:
+    int socket;
+    GameCollection *gc;
 
 public:
+    StartCommand(int socket, GameCollection *gameCollection);
     void execute(vector<string> args);
     //~Command() {}
 };
