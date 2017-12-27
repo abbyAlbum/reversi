@@ -18,8 +18,11 @@ PrintListCommand:: PrintListCommand(GameCollection *gc) {
  * @param args - the command
  */
 void PrintListCommand:: execute(vector<string> args) {
-    for (int i = 0; i < gameCollection->getList().size(); i++) {
-        cout << gameCollection->getList()[i].getName() << " ";
+    //print the list of games the player can join
+    for(int i = 0; i <gameCollection->getList().size(); i++) {
+        if(gameCollection->getList()[i].isJoinable()) {
+            cout << gameCollection->getList()[i].getName() << endl;
+        }
     }
     cout << endl;
 }

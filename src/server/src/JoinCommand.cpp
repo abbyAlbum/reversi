@@ -19,12 +19,6 @@ JoinCommand::JoinCommand(GameCollection *gc) {
  * @param args - the name of the game the client wants to play
  */
 void JoinCommand:: execute(vector<string> args) {
-    //print the list of games the player can join
-    for(int i = 0; i <gameCollection->getList().size(); i++) {
-        if(gameCollection->getList()[i].isJoinable()) {
-            cout << gameCollection->getList()[i].getName() << endl;
-        }
-    }
     //can join the game
     for(int i = 0; i < gameCollection->getList().size(); i++) {
         if(gameCollection->getList()[i].getName() == args[0]) {

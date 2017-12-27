@@ -20,7 +20,7 @@ CommandsManager::CommandsManager() {
 
 /**
  * Executes the command
- * @param command - the name of the comand
+ * @param command - the name of the command
  * @param args - the command, name of game
  */
 void CommandsManager::executeCommand(string command, vector<string> args) {
