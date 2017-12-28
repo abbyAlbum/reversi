@@ -93,12 +93,18 @@ int Server::readSocket(int toRead, string &args) {
  * @param buffer to write from
  * @return n
  */
-int Server::writeSocket(int toWrite, string s) {
-    char *buffer;
-    buffer = new char[s.length() + 1];
-    strcpy(buffer, s.c_str());
-    int n = write(toWrite, buffer, sizeof(buffer));
-    if (n == -1) throw "error writing";
+int Server::writeSocket(int toWrite, string args) {
+    char buffer;
+    int i = 0, n;
+    do {
+        buffer = args.at(i);
+        n = write(toWrite, &buffer, sizeof(char));
+        if (n == -1) throw "error reading";
+        i++;
+    } while (i < args.length());
+    buffer = '\0';
+    n = write(toWrite, &buffer, sizeof(char));
+    if (n == -1) throw "error reading";
     return n;
 }
 

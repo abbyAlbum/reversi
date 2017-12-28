@@ -116,14 +116,11 @@ string RemoteGame::getCommand(string args) {
  * @return 1 to continue the game 0 otherwise
  */
 int RemoteGame::playOneTurn(Player *curr, Player *opp, CellCounter &cc, int &i) {
-    int n;
     bool flag = false;
     string play;
-    char buffer[PLAY_LENGTH];
     //will happen every time except for the first player's first turn
     if (i != 1 || curr->getSymbol() != 'X') {
-        socketRead(buffer);
-        play = buffer;
+        socketRead(play);
         if (play.find("END_GAME") != string::npos) return 0;
         flag = readFromServer(curr, opp, play, cc);
     }
@@ -187,24 +184,32 @@ bool RemoteGame::readFromServer(Player *curr, Player *opp, string &play, CellCou
  * @param y  - y point
  */
 void RemoteGame::socketWrite(string s) {
-    int n;
-    char *buffer;
-    buffer = new char[s.length() + 1];
-    strcpy(buffer, s.c_str());
-    n = write(clientSocket_, buffer, sizeof(buffer));
-    if (n == -1) throw "Error writing to socket.";
-    delete[] buffer;
+    char buffer;
+    int i = 0, n;
+    do {
+        buffer = s.at(i);
+        n = write(clientSocket_, &buffer, sizeof(char));
+        if (n == -1) throw "error reading";
+        i++;
+    } while (i < s.length());
+    buffer = '\0';
+    n = write(clientSocket_, &buffer, sizeof(char));
+    if (n == -1) throw "error reading";
 }
 
 /**
  * reads from the socket.
  * @param buffer to read into
  */
-void RemoteGame::socketRead(char *buffer) {
-    int n;
-    n = read(clientSocket_, buffer, sizeof(buffer));
-    if(n == -1) throw "Error reading from socket.";
-
+void RemoteGame::socketRead(string s) {
+    int i = 0, n;
+    char buffer;
+    do {
+        n = read(clientSocket_, &buffer, sizeof(char));
+        if (n == -1) throw "error reading";
+        s += buffer;
+        i++;
+    } while (buffer != '\0');
 }
 
 /**
