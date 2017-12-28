@@ -9,12 +9,6 @@
 #include <string>
 using namespace std;
 
-typedef struct {
-    string name;
-    int socket;
-    //CommandsManager *cm;
-}Args;
-
 class Command {
 public:
     virtual void execute(void *args) = 0;

@@ -32,12 +32,12 @@ string SubMenu::runSubMenu() {
     if(oppFlag == 1) {
         cout << "input the name of the game you want to start" << endl;
             cin >> name;
-        command = "start" + name;
+        command = "start " + name;
     }
     if(oppFlag == 2) {
         cout << "input the name of the game you want to join" << endl;
         cin >> name;
-        command = "join" + name;
+        command = "join " + name;
     }
     if(oppFlag == 3) {
         command = "list_games";

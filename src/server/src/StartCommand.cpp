@@ -5,7 +5,7 @@
 #include <cstring>
 #include "../include/Command.h"
 #include "../include/StartCommand.h"
-//#include "../include/Server.h"
+#include "../include/Server.h"
 
 /**
  * Creat the start command
@@ -26,12 +26,12 @@ void StartCommand:: execute(void *args) {
     for(int i = 0; i < gc->getList().size(); i++) {
         //if already appears in list
         if (gh.getName() == gc->getList()[i].getName()) {
-            //Server::writeSocket(arg->socket, "-1");
+            Server::writeSocket(arg->socket, "-1");
             return;
         }
     }
     gc->add(gh);
-    //Server::writeSocket(arg->socket, "waiting for other player to join...");
+    Server::writeSocket(arg->socket, "waiting for other player to join...");
 }
 
 

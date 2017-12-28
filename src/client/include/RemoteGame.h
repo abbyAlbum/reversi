@@ -6,7 +6,7 @@
 #define EX1_REMOTEGAME_H
 
 #define COLOR_LENGTH 6
-#define PLAY_LENGTH 20
+#define PLAY_LENGTH 30
 
 #include <stdio.h>
 #include "Board.h"

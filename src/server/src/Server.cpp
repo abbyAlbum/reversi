@@ -3,7 +3,6 @@
 #include <unistd.h>
 #include <string.h>
 #include <iostream>
-#include <pthread.h>
 #include <vector>
 #include <cstdlib>
 #include "../include/Server.h"
@@ -58,7 +57,7 @@ void Server::start() {
         pthread_t thread;
         threads.push_back(thread);
         Args args = Args();
-        //args.cm = cm;
+        args.cm = cm;
         args.socket = clientSocket;
         int rc = pthread_create(&thread, NULL, handleClient, (void *)&args);
         if (rc) {
@@ -76,9 +75,15 @@ void Server::start() {
  * @param buffer to read into
  * @return n
  */
-int Server::readSocket(int toRead, char *buffer) {
-    int n = read(toRead, buffer, sizeof(buffer));
-    if (n == -1) throw "error reading";
+int Server::readSocket(int toRead, string &args) {
+    int i = 0, n;
+    char buffer;
+    do {
+        n = read(toRead, &buffer, sizeof(char));
+        if (n == -1) throw "error reading";
+        args += buffer;
+        i++;
+    } while (buffer != '\0');
     return n;
 }
 
@@ -106,14 +111,13 @@ int Server::writeSocket(int toWrite, string s) {
 void* Server::handleClient(void *arguments) {
     int index;
     Args *args = (Args *)arguments;
-    char buffer[50];
+    string temp;
     //reads the temp
-    Server::readSocket(args->socket, buffer);
+    Server::readSocket(args->socket, temp);
     //split up temp
-    string temp(buffer);
     index = temp.find(" ");
     string command = temp.substr(0, index);
     string arg = temp.substr(index, temp.length());
     args->name = arg;
-    //args->cm->executeCommand(command, (void *)args);
+    args->cm->executeCommand(command, (void *)args);
 }

@@ -3,9 +3,8 @@
 //
 
 #include "../include/ServerFlow.h"
-#include "../include/GameHolder.h"
-#include "Server.cpp"
-#include <iostream>
+#include "../include/Server.h"
+#include <cstring>
 
 /**
  * Creates the serverflow
@@ -52,14 +51,13 @@ void ServerFlow::handleClient() {
  */
 int ServerFlow::passMessage(int &clientSocket1, int &clientSocket2) {
     int n;
-    char buffer[30] = {0};
-    n = Server::readSocket(clientSocket1, buffer);
+    string play;
+    n = Server::readSocket(clientSocket1, play);
     if (n == 0) {
         cout << "Client disconnected" << endl;
         return 0;
     }
-    Server::writeSocket(clientSocket2, buffer);
-    string play(buffer);
+    Server::writeSocket(clientSocket2, play);
     if (play.find("END_GAME") != string::npos) {
         return 0;
     }

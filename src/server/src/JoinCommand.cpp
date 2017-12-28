@@ -5,7 +5,7 @@
 #include "../include/Command.h"
 #include "../include/JoinCommand.h"
 #include "../include/ServerFlow.h"
-//#include "../include/Server.h"
+#include "../include/Server.h"
 
 /**
  * Creates the join command

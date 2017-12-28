@@ -53,7 +53,7 @@ void RemoteGame::run() {
     int i = 1, endGame, color;
     char colour[COLOR_LENGTH];
     SubMenu sm;
-    char buffer[100];
+    char buffer[100] = {0};
     do {
         connectToServer();
         args = sm.runSubMenu();
@@ -63,7 +63,7 @@ void RemoteGame::run() {
         if(command == "join") break;
         //read answer from the server
         socketRead(buffer);
-        cout << buffer << endl;
+        cout << *buffer << endl;
     } while (command == "list_games" || strcmp(buffer, "-1") == 0);
     // if we have joined a game or started a game correctly
     string name = getGameName(args);
@@ -193,6 +193,7 @@ void RemoteGame::socketWrite(string s) {
     strcpy(buffer, s.c_str());
     n = write(clientSocket_, buffer, sizeof(buffer));
     if (n == -1) throw "Error writing to socket.";
+    delete[] buffer;
 }
 
 /**
