@@ -1,4 +1,5 @@
 #include "../include/Server.h"
+#include "../include/GameCollection.h"
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
@@ -19,11 +20,14 @@ int main() {
         port = x;
     }
     inFile.close();
-    Server server(port);
+    CommandsManager cm = CommandsManager();
+    GameCollection *gc = GameCollection::getInstance();
+    Server server(port, cm);
     try {
         server.start();
     } catch (const char *msg) {
         cout << "Cannot start server. Reason: " << msg << endl;
         exit(-1);
     }
+    delete gc;
 }

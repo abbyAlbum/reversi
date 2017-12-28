@@ -5,7 +5,7 @@
 #include <cstring>
 #include "../include/Command.h"
 #include "../include/PrintListCommand.h"
-#include "../include/Server.h"
+//#include "../include/Server.h"
 
 /**
  * Creates the print list command
@@ -31,7 +31,7 @@ void PrintListCommand:: execute(void *args) {
     s += "\n";
     char *buffer = new char[s.length() + 1];
     strcpy(buffer, s.c_str());
-    Server::writeSocket(arg->socket, buffer);
+    //Server::writeSocket(arg->socket, buffer);
     delete[] buffer;
 }
 

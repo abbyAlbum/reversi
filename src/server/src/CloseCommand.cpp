@@ -4,7 +4,6 @@
 
 #include "../include/GameCollection.h"
 #include "../include/CloseCommand.h"
-#include "../include/Server.h"
 
 /**
  * Creates the close command

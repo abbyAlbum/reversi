@@ -21,4 +21,3 @@ public:
 };
 
 #endif //EX1_SUBMENU_H
-#endif //EX1_SUBMENU_H

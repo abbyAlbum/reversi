@@ -7,22 +7,20 @@
 
 #include "CommandsManager.h"
 
-typedef struct {
-    string name;
-    int socket;
-}Args;
+
 
 class Server {
+
 public:
-    Server(int port, CommandsManager &commandsManager);
+    Server(int port_, CommandsManager &commandsManager);
     void start();
     static int readSocket(int toRead, char *buffer);
     static int writeSocket(int toWrite, string s);
-    void * handleClient(void *toRead);
+    static void * handleClient(void *arguments);
 private:
-    int port;
-    int serverSocket; // the socket's file descriptor
-    CommandsManager &cm;
+    int port_;
+    int serverSocket_; // the socket's file descriptor
+    CommandsManager *cm;
 };
 
 

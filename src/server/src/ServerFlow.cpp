@@ -23,17 +23,13 @@ ServerFlow::ServerFlow(GameHolder *gameHolder) {
 void ServerFlow::handleClient() {
     int counter = 1;
     int num, firstSocket, secondSocket;
-    int n;
     char buffer[100] = {0};
     strcpy(buffer, "black");
     char buffer2[100] = {0};
     strcpy(buffer, "white");
     //tell the clients which player they are, depending on who joined first
-    n = Server::writeSocket(gh->getSocketPLayer1(), buffer);
-    n = Server::writeSocket(gh->getSocketPLayer1(), buffer2);
-    if (n == -1) {
-        cout << "Error writing to socket" << endl;
-    }
+    Server::writeSocket(gh->getSocketPLayer1(), buffer);
+    Server::writeSocket(gh->getSocketPLayer1(), buffer2);
     firstSocket = gh->getSocketPLayer1();
     secondSocket = gh->getSocketPlayer2();
     while (true) {
@@ -42,7 +38,7 @@ void ServerFlow::handleClient() {
         else
             num = passMessage(secondSocket, firstSocket);
         counter++;
-        if(num == 0 || num == 2) {
+        if(num == 0) {
             break;
         }
     }
@@ -54,26 +50,17 @@ void ServerFlow::handleClient() {
  * @param clientSocket2  - second client.
  * @return 1, 2, 0
  */
-int ServerFlow:: passMessage(int &clientSocket1, int &clientSocket2) {
+int ServerFlow::passMessage(int &clientSocket1, int &clientSocket2) {
     int n;
-    int x, y;
     char buffer[30] = {0};
     n = Server::readSocket(clientSocket1, buffer);
-    if (n == -1) return 2;
     if (n == 0) {
         cout << "Client disconnected" << endl;
         return 0;
     }
-    n = Server::writeSocket(clientSocket2, buffer);
-    if (n == -1) {
-        cout << "Error writing to socket" << endl;
-    }
-    n = write(clientSocket2, &y, sizeof(int));
-    if (n == -1) {
-        cout << "Error writing to socket" << endl;
-    }
-    //TODO change end game situation
-    if (x == -2 && y == -2) {
+    Server::writeSocket(clientSocket2, buffer);
+    string play(buffer);
+    if (play.find("END_GAME") != string::npos) {
         return 0;
     }
     return 1;

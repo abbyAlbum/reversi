@@ -5,6 +5,9 @@
 #ifndef EX1_REMOTEGAME_H
 #define EX1_REMOTEGAME_H
 
+#define COLOR_LENGTH 6
+#define PLAY_LENGTH 20
+
 #include <stdio.h>
 #include "Board.h"
 #include "GameLogic.h"
@@ -18,6 +21,7 @@
 #include <netdb.h>
 #include <string.h>
 #include <unistd.h>
+#include <sstream>
 
 class RemoteGame {
 public:
@@ -32,11 +36,13 @@ private:
     int clientSocket_;
 
     void connectToServer();
-    bool readFromServer(Player *curr, Player *opp, int x, int y, CellCounter &cc);
+    bool readFromServer(Player *curr, Player *opp, string &play, CellCounter &cc);
     int playOneTurn(Player *curr, Player *opp, CellCounter &cc, int &i);
     void socketWrite(string s);
     void socketRead(char *buffer);
-    string splitArgs(string args);
+    string getCommand(string args);
+    string getGameName(string &args);
+    Point stringToPoint(string s);
 };
 
 

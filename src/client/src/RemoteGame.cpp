@@ -50,8 +50,8 @@ void RemoteGame::connectToServer() {
  */
 void RemoteGame::run() {
     string command, args;
-    int n, i = 1, endGame, color;
-    char colour[6];
+    int i = 1, endGame, color;
+    char colour[COLOR_LENGTH];
     SubMenu sm;
     char buffer[100];
     do {
@@ -59,13 +59,14 @@ void RemoteGame::run() {
         args = sm.runSubMenu();
         //write command to the socket
         socketWrite(args);
-        command = splitArgs(args);
+        command = getCommand(args);
         if(command == "join") break;
         //read answer from the server
         socketRead(buffer);
         cout << buffer << endl;
     } while (command == "list_games" || strcmp(buffer, "-1") == 0);
     // if we have joined a game or started a game correctly
+    string name = getGameName(args);
     // reading the number that represents the colour
     socketRead(colour);
     if (colour[0] == 'b')
@@ -82,6 +83,9 @@ void RemoteGame::run() {
         if (endGame == 0 || cc.getCounter(' ') == 0) break;
         i++;
     }
+    connectToServer();
+    args = "close " + name;
+    socketWrite(args);
     close(clientSocket_);
     if (cc.getCounter(curr->getSymbol()) > cc.getCounter(opp->getSymbol()))
         cout << "You Win!" << endl;
@@ -97,7 +101,7 @@ void RemoteGame::run() {
  * @param args - the command and anme
  * @return the command
  */
-string RemoteGame::splitArgs(string args) {
+string RemoteGame::getCommand(string args) {
     int index = args.find(" ");
     string command = args.substr(0, index);
     return command;
@@ -115,37 +119,35 @@ int RemoteGame::playOneTurn(Player *curr, Player *opp, CellCounter &cc, int &i) 
     int n;
     bool flag = false;
     string play;
+    char buffer[PLAY_LENGTH];
     //will happen every time except for the first player's first turn
     if (i != 1 || curr->getSymbol() != 'X') {
-        socketRead(play);
-        if (x == -2) return 0;
-        flag = readFromServer(curr, opp, x, y, cc);
+        socketRead(buffer);
+        play = buffer;
+        if (play.find("END_GAME") != string::npos) return 0;
+        flag = readFromServer(curr, opp, play, cc);
     }
     vector<Point> moves = logic_->getPossibleMoves(*curr, *opp);
     Point choice = curr->makeMove(moves);
-    //if current player has no moves left
+    // if current player has no moves left
     if (choice.getX() == -1 && choice.getY() == -1) {
-        x = -2, y = -2;
         if (flag || cc.getCounter(' ') == 0) {
-            x = choice.getX() - 1;
-            y = choice.getY() - 1;
-            socketWrite(x, y);
+            socketWrite("END_GAME");
             return 0;
         }
-        x = choice.getX();
-        y = choice.getY();
-        socketWrite(x, y);
+        socketWrite("NO_MOVES");
         return 1;
     }
     //makes the move.
     choice.setPoint(choice.getX() - 1, choice.getY() - 1);
-    x = choice.getX(), y = choice.getY();
+    play = "";
+    play += choice.getX() + " " + choice.getY();
     board_->putChoice(choice, *curr, *opp);
     cc.count();
     cout << "Current board:" << endl << endl;
     board_->print();
     cout << "waiting for other player's move" << endl << endl;
-    socketWrite(x, y);
+    socketWrite(play);
     return 1;
 }
 
@@ -156,17 +158,17 @@ int RemoteGame::playOneTurn(Player *curr, Player *opp, CellCounter &cc, int &i) 
  * @param point string
  * @return false if player played a move, true if he had no moves
  */
-bool RemoteGame::readFromServer(Player *curr, Player *opp, int x, int y, CellCounter &cc) {
+bool RemoteGame::readFromServer(Player *curr, Player *opp, string &play, CellCounter &cc) {
     bool flag = false;
     Point choice;
-    if (x == -1 && y == -1) {
+    if (play == "NO_MOVES") {
         flag = true;
         cout << "Current Board:" << endl << endl;
         board_ ->print();
         cout << opp->getSymbol() << " had no moves." << endl << endl;
     }
     else {
-        choice = Point(x, y);
+        choice = stringToPoint(play);
         board_->putChoice(choice, *opp, *curr);
         cc.count();
         cout << "Current board:" << endl << endl;
@@ -188,12 +190,16 @@ void RemoteGame::socketWrite(string s) {
     int n;
     char *buffer;
     buffer = new char[s.length() + 1];
-    strcpy(buffer, s);
+    strcpy(buffer, s.c_str());
     n = write(clientSocket_, buffer, sizeof(buffer));
     if (n == -1) throw "Error writing to socket.";
 }
 
-void RemoteGame:: socketRead(char *buffer) {
+/**
+ * reads from the socket.
+ * @param buffer to read into
+ */
+void RemoteGame::socketRead(char *buffer) {
     int n;
     n = read(clientSocket_, buffer, sizeof(buffer));
     if(n == -1) throw "Error reading from socket.";
@@ -201,7 +207,31 @@ void RemoteGame:: socketRead(char *buffer) {
 }
 
 /**
- * Desconstrcutor.
+ * converts a string to a point
+ * @param s string to convert
+ * @return point
+ */
+Point RemoteGame::stringToPoint(string s) {
+    int x, y, index = s.find(" ");
+    string xCoor = s.substr(0, index);
+    string yCoor = s.substr(index, s.length() - 1);
+    stringstream(xCoor) >> x;
+    stringstream(yCoor) >> y;
+    return Point(x, y);
+}
+
+/**
+ * gets the name of the current game
+ * @param args
+ * @return game name
+ */
+string RemoteGame::getGameName(string &args) {
+    int index = args.find(" ");
+    return args.substr(index, args.length() - 1);
+}
+
+/**
+ * Deconstructor.
  */
 RemoteGame::~RemoteGame() {
     delete board_;
