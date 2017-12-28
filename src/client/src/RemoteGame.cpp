@@ -3,6 +3,7 @@
 //
 
 #include "../include/RemoteGame.h"
+#include "../include/SubMenu.h"
 
 /**
  * c'tor for RemoteGame
@@ -48,15 +49,29 @@ void RemoteGame::connectToServer() {
  * runs the online game
  */
 void RemoteGame::run() {
-    int n, color, i = 1, endGame;
-    connectToServer();
-    //reading the number that represents the color
-    n = read(clientSocket_, &color, sizeof(color));
-    if (n == -1) throw "Error reading from server.";
-    if(color == 3) {
-        cout << "Waiting for other player to join..." << endl;
-        n = read(clientSocket_, &color, sizeof(color));
-    }
+    string command, args;
+    int n, i = 1, endGame, color;
+    char colour[6];
+    SubMenu sm;
+    char buffer[100];
+    do {
+        connectToServer();
+        args = sm.runSubMenu();
+        //write command to the socket
+        socketWrite(args);
+        command = splitArgs(args);
+        if(command == "join") break;
+        //read answer from the server
+        socketRead(buffer);
+        cout << buffer << endl;
+    } while (command == "list_games" || strcmp(buffer, "-1") == 0);
+    // if we have joined a game or started a game correctly
+    // reading the number that represents the colour
+    socketRead(colour);
+    if (colour[0] == 'b')
+        color = 1;
+    else
+        color = 2;
     Player *curr = new HumanPlayer(color);
     Player *opp = new HumanPlayer(3 - color);
     CellCounter cc = CellCounter(board_);
@@ -78,6 +93,17 @@ void RemoteGame::run() {
 }
 
 /**
+ * Splits the args to get the first part
+ * @param args - the command and anme
+ * @return the command
+ */
+string RemoteGame::splitArgs(string args) {
+    int index = args.find(" ");
+    string command = args.substr(0, index);
+    return command;
+}
+
+/**
  * plays a turn online
  * @param curr player
  * @param opp player
@@ -88,13 +114,10 @@ void RemoteGame::run() {
 int RemoteGame::playOneTurn(Player *curr, Player *opp, CellCounter &cc, int &i) {
     int n;
     bool flag = false;
-    int x, y;
+    string play;
     //will happen every time except for the first player's first turn
     if (i != 1 || curr->getSymbol() != 'X') {
-        n = read(clientSocket_, &x, sizeof(int));
-        if (n == -1) throw "Error reading from server.";
-        n = read(clientSocket_, &y, sizeof(int));
-        if (n == -1) throw "Error reading from server.";
+        socketRead(play);
         if (x == -2) return 0;
         flag = readFromServer(curr, opp, x, y, cc);
     }
@@ -161,12 +184,20 @@ bool RemoteGame::readFromServer(Player *curr, Player *opp, int x, int y, CellCou
  * @param x - x point
  * @param y  - y point
  */
-void RemoteGame::socketWrite(int x, int y) {
+void RemoteGame::socketWrite(string s) {
     int n;
-    n = write(clientSocket_, &x, sizeof(int));
+    char *buffer;
+    buffer = new char[s.length() + 1];
+    strcpy(buffer, s);
+    n = write(clientSocket_, buffer, sizeof(buffer));
     if (n == -1) throw "Error writing to socket.";
-    n = write(clientSocket_, &y, sizeof(int));
-    if (n == -1) throw "Error writing to socket.";
+}
+
+void RemoteGame:: socketRead(char *buffer) {
+    int n;
+    n = read(clientSocket_, buffer, sizeof(buffer));
+    if(n == -1) throw "Error reading from socket.";
+
 }
 
 /**

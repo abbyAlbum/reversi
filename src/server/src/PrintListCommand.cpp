@@ -30,7 +30,7 @@ void PrintListCommand:: execute(void *args) {
     }
     s += "\n";
     char *buffer = new char[s.length() + 1];
-    strcpy(buffer, s);
+    strcpy(buffer, s.c_str());
     Server::writeSocket(arg->socket, buffer);
     delete[] buffer;
 }

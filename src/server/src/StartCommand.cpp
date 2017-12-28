@@ -22,17 +22,16 @@ StartCommand::StartCommand() {
  */
 void StartCommand:: execute(void *args) {
     Args *arg = (Args *)args;
-    char buffer[3];
-    strcpy(buffer, "-1");
     GameHolder gh = GameHolder(arg->name, arg->socket);
     for(int i = 0; i < gc->getList().size(); i++) {
         //if already appears in list
         if (gh.getName() == gc->getList()[i].getName()) {
-            Server::writeSocket(arg->socket, buffer);
+            Server::writeSocket(arg->socket, "-1");
             return;
         }
     }
     gc->add(gh);
+    Server::writeSocket(arg->socket, "waiting for other player to join...");
 }
 
 

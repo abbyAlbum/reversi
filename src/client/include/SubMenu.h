@@ -16,7 +16,7 @@ private:
 
 public:
     SubMenu();
-    int runSubMenu();
+    string runSubMenu();
     ~SubMenu();
 };
 

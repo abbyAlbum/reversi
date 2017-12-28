@@ -34,7 +34,9 @@ private:
     void connectToServer();
     bool readFromServer(Player *curr, Player *opp, int x, int y, CellCounter &cc);
     int playOneTurn(Player *curr, Player *opp, CellCounter &cc, int &i);
-    void socketWrite(int x, int y);
+    void socketWrite(string s);
+    void socketRead(char *buffer);
+    string splitArgs(string args);
 };
 
 

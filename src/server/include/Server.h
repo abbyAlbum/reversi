@@ -17,7 +17,7 @@ public:
     Server(int port, CommandsManager &commandsManager);
     void start();
     static int readSocket(int toRead, char *buffer);
-    static int writeSocket(int toWrite, char *buffer);
+    static int writeSocket(int toWrite, string s);
     void * handleClient(void *toRead);
 private:
     int port;

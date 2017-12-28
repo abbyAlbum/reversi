@@ -25,9 +25,9 @@ void ServerFlow::handleClient() {
     int num, firstSocket, secondSocket;
     int n;
     char buffer[100] = {0};
-    strcpy(buffer, "first");
+    strcpy(buffer, "black");
     char buffer2[100] = {0};
-    strcpy(buffer, "second");
+    strcpy(buffer, "white");
     //tell the clients which player they are, depending on who joined first
     n = Server::writeSocket(gh->getSocketPLayer1(), buffer);
     n = Server::writeSocket(gh->getSocketPLayer1(), buffer2);
