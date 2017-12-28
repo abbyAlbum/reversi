@@ -11,6 +11,7 @@
 Menu::Menu() {
     symbol_ = 'X';
     player1_ = new HumanPlayer(symbol_);
+    boardSize_ = DEFAULT_SIZE;
 }
 
 /**

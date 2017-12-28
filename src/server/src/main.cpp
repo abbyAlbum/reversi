@@ -1,4 +1,4 @@
-#include "Server.h"
+#include "../include/Server.h"
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
@@ -10,7 +10,7 @@ int main() {
     int port = 0;
     int x;
     //read from the file to get the port number for the server
-    inFile.open("/home/abby/CLionProjects/reversi/server/port number");
+    inFile.open("../exe/server.txt");
     if (!inFile) {
         cerr << "Unable to open file datafile.txt";
         exit(1);   // call system to stop
