@@ -59,7 +59,7 @@ void Server::start() {
         Args args = Args();
         args.cm = cm;
         args.socket = clientSocket;
-        int rc = pthread_create(&thread, NULL, handleClient, (void *)&args);
+        int rc = pthread_create(&thread, NULL, &Server::handleClient, (void *)&args);
         if (rc) {
             cout << "Error: unable to create thread, " << rc << endl;
             exit(-1);
@@ -70,7 +70,7 @@ void Server::start() {
 }
 
 /**
- * reads the server socket
+ * reads the servery socket
  * @param toRead socket to read from
  * @param buffer to read into
  * @return n
@@ -118,6 +118,9 @@ void* Server::handleClient(void *arguments) {
     int index;
     Args *args = (Args *)arguments;
     string temp;
+    char buffer;
+    int n = read(args->socket, &buffer, sizeof(char));
+    if (n == -1) throw "error reading";
     //reads the temp
     Server::readSocket(args->socket, temp);
     //split up temp

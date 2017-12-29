@@ -62,7 +62,7 @@ void RemoteGame::run() {
         command = getCommand(args);
         if(command == "join") break;
         //read answer from the server
-        socketRead(buffer);
+       socketRead(buffer);
         cout << *buffer << endl;
     } while (command == "list_games" || strcmp(buffer, "-1") == 0);
     // if we have joined a game or started a game correctly
@@ -204,6 +204,8 @@ void RemoteGame::socketWrite(string s) {
 void RemoteGame::socketRead(string s) {
     int i = 0, n;
     char buffer;
+    n = read(clientSocket_, &buffer, sizeof(char));
+    if (n == -1) throw "error reading";
     do {
         n = read(clientSocket_, &buffer, sizeof(char));
         if (n == -1) throw "error reading";
