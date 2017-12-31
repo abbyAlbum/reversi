@@ -47,15 +47,14 @@ void Server::start() {
     // Define the client socket's structures
     struct sockaddr_in clientAddress;
     socklen_t clientAddressLen;
+    cout << "Waiting for client connections..." << endl;
     while (true) {
-        cout << "Waiting for client connections..." << endl;
         // Accept a new client connection
         int clientSocket = accept(serverSocket_, (struct sockaddr *)&clientAddress, &clientAddressLen);
         //create a thread
         cout << "Client connected" << endl;
         if (clientSocket == -1) throw "Error on accept";
         pthread_t thread;
-        threads.push_back(thread);
         Args *args = new Args();
         args->cm = cm;
         args->socket = clientSocket;
@@ -64,8 +63,9 @@ void Server::start() {
             cout << "Error: unable to create thread, " << rc << endl;
             exit(-1);
         }
+        threads.push_back(thread);
         // Close communication with the client
-        close(clientSocket);
+       // close(clientSocket);
     }
 }
 
@@ -81,9 +81,10 @@ int Server::readSocket(int toRead, string &args) {
     do {
         n = read(toRead, &buffer, sizeof(char));
         if (n == -1) throw "error reading";
+        if (buffer == '\0') break;
         args += buffer;
         i++;
-    } while (buffer != '\0');
+    } while (true);
     return n;
 }
 
@@ -122,8 +123,12 @@ void* Server::handleClient(void *arguments) {
     Server::readSocket(args->socket, temp);
     //split up temp
     index = temp.find(" ");
-    string command = temp.substr(0, index);
-    string arg = temp.substr(index, temp.length());
-    args->name = arg;
-    args->cm->executeCommand(command, (void *)args);
+    if (index == -1)
+        args->cm->executeCommand(temp, (void *)args);
+    else {
+        string command = temp.substr(0, index);
+        string arg = temp.substr(index + 1, temp.length());
+        args->name = arg;
+        args->cm->executeCommand(command, (void *) args);
+    }
 }

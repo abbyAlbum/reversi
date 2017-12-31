@@ -39,7 +39,7 @@ private:
     bool readFromServer(Player *curr, Player *opp, string &play, CellCounter &cc);
     int playOneTurn(Player *curr, Player *opp, CellCounter &cc, int &i);
     void socketWrite(string s);
-    void socketRead(string s);
+    void socketRead(string &s);
     string getCommand(string args);
     string getGameName(string &args);
     Point stringToPoint(string s);

@@ -51,14 +51,14 @@ bool GameHolder:: isJoinable() {
  * Sets the join flag - can join a game or not
  * @param flag - the flag
  */
-void GameHolder::setJoinable(bool flag) {
-    joinable = flag;
+void GameHolder::setJoinable() {
+    joinable = false;
 }
 
 /**
  * Sets the second socket
  * @param socketPlayer2 - the second socket
  */
-void GameHolder::setSocketPlayer2(int socketPlayer2) {
-    GameHolder::socketPlayer2 = socketPlayer2;
+void GameHolder::setSocketPlayer2(int socket) {
+    socketPlayer2 = socket;
 }

@@ -23,7 +23,7 @@ public:
     int getSocketPLayer1();
     int getSocketPlayer2();
     bool isJoinable();
-    void setJoinable(bool flag);
-    void setSocketPlayer2(int socketPlayer2);
+    void setJoinable();
+    void setSocketPlayer2(int socket);
 };
 #endif //EX1_GAMEHOLDER_H

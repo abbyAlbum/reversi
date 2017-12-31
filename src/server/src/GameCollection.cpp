@@ -39,6 +39,11 @@ void GameCollection::remove(string name) {
     }
 }
 
+void GameCollection::joinGame(int i, int socket) {
+    log[i].setSocketPlayer2(socket);
+    log[i].setJoinable();
+}
+
 // Null, because instance will be initialized on demand.
 GameCollection *GameCollection::instance = 0;
 

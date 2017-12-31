@@ -22,15 +22,12 @@ ServerFlow::ServerFlow(GameHolder *gameHolder) {
 void ServerFlow::handleClient() {
     int counter = 1;
     int num, firstSocket, secondSocket;
-    char buffer[100] = {0};
-    strcpy(buffer, "black");
-    char buffer2[100] = {0};
-    strcpy(buffer, "white");
-    //tell the clients which player they are, depending on who joined first
-    Server::writeSocket(gh->getSocketPLayer1(), buffer);
-    Server::writeSocket(gh->getSocketPLayer1(), buffer2);
+
     firstSocket = gh->getSocketPLayer1();
     secondSocket = gh->getSocketPlayer2();
+    //tell the clients which player they are, depending on who joined first
+    Server::writeSocket(firstSocket, "black");
+    Server::writeSocket(secondSocket, "white");
     while (true) {
         if (counter % 2 == 1)
             num = passMessage(firstSocket, secondSocket);

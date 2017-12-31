@@ -51,9 +51,8 @@ void RemoteGame::connectToServer() {
 void RemoteGame::run() {
     string command, args;
     int i = 1, endGame, color;
-    char colour[COLOR_LENGTH];
+    string colour, buffer;
     SubMenu sm;
-    char buffer[100] = {0};
     do {
         connectToServer();
         args = sm.runSubMenu();
@@ -63,8 +62,8 @@ void RemoteGame::run() {
         if(command == "join") break;
         //read answer from the server
        socketRead(buffer);
-        cout << *buffer << endl;
-    } while (command == "list_games" || strcmp(buffer, "-1") == 0);
+        cout << buffer << endl;
+    } while (command == "list_games" || buffer == "-1");
     // if we have joined a game or started a game correctly
     string name = getGameName(args);
     // reading the number that represents the colour
@@ -138,7 +137,16 @@ int RemoteGame::playOneTurn(Player *curr, Player *opp, CellCounter &cc, int &i) 
     //makes the move.
     choice.setPoint(choice.getX() - 1, choice.getY() - 1);
     play = "";
-    play += choice.getX() + " " + choice.getY();
+    int x = choice.getX(), y = choice.getY();
+    //play = choice.getX() + " " + choice.getY();
+    ostringstream geek;
+    geek << x;
+    play = geek.str() + " ";
+    geek.str("");
+    geek.clear();
+    geek << y;
+    play += geek.str();
+    //play =  + " " + y;
     board_->putChoice(choice, *curr, *opp);
     cc.count();
     cout << "Current board:" << endl << endl;
@@ -201,17 +209,16 @@ void RemoteGame::socketWrite(string s) {
  * reads from the socket.
  * @param buffer to read into
  */
-void RemoteGame::socketRead(string s) {
+void RemoteGame::socketRead(string &s) {
     int i = 0, n;
     char buffer;
-    n = read(clientSocket_, &buffer, sizeof(char));
-    if (n == -1) throw "error reading";
     do {
         n = read(clientSocket_, &buffer, sizeof(char));
         if (n == -1) throw "error reading";
+        if (buffer == '\0') break;
         s += buffer;
         i++;
-    } while (buffer != '\0');
+    } while (true);
 }
 
 /**

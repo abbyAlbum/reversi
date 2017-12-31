@@ -26,7 +26,7 @@ void JoinCommand::execute(void *args) {
         if(gc->getList()[i].getName() == arg->name) {
             //if this is a game that the player can join
             if(gc->getList()[i].isJoinable()) {
-                gc->getList()[i].setSocketPlayer2(arg->socket);
+                gc->joinGame(i, arg->socket);
                 //sends this game to the server
                 ServerFlow sf(&gc->getList()[i]);
                 sf.handleClient();

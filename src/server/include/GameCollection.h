@@ -23,6 +23,7 @@ public:
     static GameCollection * getInstance();
     void add(GameHolder gh);
     void remove(string name);
+    void joinGame(int i, int socket);
     vector<GameHolder> getList();
 };
 
