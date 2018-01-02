@@ -28,7 +28,10 @@ void JoinCommand::execute(void *args) {
             if(gc->getList()[i].isJoinable()) {
                 gc->joinGame(i, arg->socket);
                 //sends this game to the server
-                ServerFlow sf(&gc->getList()[i]);
+                GameHolder gh = gc->getList()[i];
+                string name = gc->getList()[i].getName();
+                //gh->setName(name);
+                ServerFlow sf(&gh);
                 Server::writeSocket(arg->socket, "waiting for other player's move");
                 sf.handleClient();
                 return;

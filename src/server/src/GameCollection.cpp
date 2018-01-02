@@ -31,12 +31,15 @@ vector<GameHolder> GameCollection::getList() {
  * @param name - the name of the game
  */
 void GameCollection::remove(string name) {
+    int index = 0;
     for(int i = 0; i < log.size(); i++) {
         if(name == log[i].getName()) {
-            log.erase(log.begin() + i);
+            index = i;
             break;
         }
     }
+    vector<GameHolder>::iterator it = log.begin() + index;
+    log.erase(it);
 }
 
 void GameCollection::joinGame(int i, int socket) {

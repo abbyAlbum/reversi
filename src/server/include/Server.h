@@ -18,13 +18,18 @@ class Server {
 public:
     Server(int port, CommandsManager &commandsManager);
     void start();
+    void setShouldStop();
+    void stop();
     static int readSocket(int toRead, string &args);
     static int writeSocket(int toWrite, string s);
     static void * handleClient(void *arguments);
+    static void * acceptClients(void *v);
 private:
     int port_;
     int serverSocket_; // the socket's file descriptor
     CommandsManager *cm;
+    vector<pthread_t> threads;
+    bool shouldStop;
 };
 
 

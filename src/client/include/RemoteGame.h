@@ -14,6 +14,7 @@
 #include "BasicLogic.h"
 #include "HumanPlayer.h"
 #include "CellCounter.h"
+#include "SubMenu.h"
 #include <iostream>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -38,8 +39,9 @@ private:
     void connectToServer();
     bool readFromServer(Player *curr, Player *opp, string &play, CellCounter &cc);
     int playOneTurn(Player *curr, Player *opp, CellCounter &cc, int &i);
-    void socketWrite(string s);
-    void socketRead(string &s);
+    int commandAndColor(SubMenu &sm);
+    int socketWrite(string s);
+    int socketRead(string &s);
     string getCommand(string args);
     string getGameName(string &args);
     Point stringToPoint(string s);

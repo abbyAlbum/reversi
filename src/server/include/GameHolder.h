@@ -25,5 +25,6 @@ public:
     bool isJoinable();
     void setJoinable();
     void setSocketPlayer2(int socket);
+    void setName(string s);
 };
 #endif //EX1_GAMEHOLDER_H

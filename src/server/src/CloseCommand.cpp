@@ -2,11 +2,10 @@
 // Created by abby on 26/12/17.
 //
 
-#include <unistd.h>
 #include "../include/GameCollection.h"
 #include "../include/CloseCommand.h"
-#include "../include/Server.h"
 
+pthread_mutex_t remove_mutex;
 /**
  * Creates the close command
  * @param gc - the game collection
@@ -20,14 +19,8 @@ CloseCommand:: CloseCommand() {
  * @param args  - this game
  */
 void CloseCommand:: execute(void *args) {
-    for (int i = 0; i < gc->getList().size(); ++i) {
-        cout << gc->getList()[i].getName() << endl;
-    }
     GameHolder *arg = (GameHolder *) args;
+    pthread_mutex_lock(&remove_mutex);
     gc->remove(arg->getName());
-    for (int i = 0; i < gc->getList().size(); ++i) {
-        cout << gc->getList()[i].getName() << endl;
-    }
-    close(arg->getSocketPLayer1());
-    close(arg->getSocketPlayer2());
+    pthread_mutex_unlock(&remove_mutex);
 }

@@ -7,6 +7,7 @@
 #include "../include/StartCommand.h"
 #include "../include/Server.h"
 
+pthread_mutex_t add_mutex;
 /**
  * Creat the start command
  * @param s  - the socket
@@ -21,7 +22,9 @@ StartCommand::StartCommand() {
  * @param args - the game you want to start
  */
 void StartCommand:: execute(void *args) {
+
     Args *arg = (Args *)args;
+    pthread_mutex_lock(&add_mutex);
     GameHolder gh = GameHolder(arg->name, arg->socket);
     for(int i = 0; i < gc->getList().size(); i++) {
         //if already appears in list
@@ -31,7 +34,6 @@ void StartCommand:: execute(void *args) {
         }
     }
     gc->add(gh);
+    pthread_mutex_unlock(&add_mutex);
     Server::writeSocket(arg->socket, "waiting for other player to join...");
 }
-
-

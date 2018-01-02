@@ -49,31 +49,14 @@ void RemoteGame::connectToServer() {
  * runs the online game
  */
 void RemoteGame::run() {
-    string command, args;
     int i = 1, endGame, color;
-    string colour, buffer;
     SubMenu sm;
     connectToServer();
-    do {
-        args = sm.runSubMenu();
-        //write command to the socket
-        socketWrite(args);
-        command = getCommand(args);
-        //read answer from the server
-        socketRead(buffer);
-        if (buffer == "-1")
-            cout << "try again with a different name" << endl << endl;
-        else
-            cout << buffer << endl;
-    } while (command == "list_games" || buffer == "-1");
-    // if we have joined a game or started a game correctly
-    string name = getGameName(args);
-    // reading the number that represents the colour
-    socketRead(colour);
-    if (colour[0] == 'b')
-        color = 1;
-    else
-        color = 2;
+    color = commandAndColor(sm);
+    if (!color) {
+        cout << "Server is going to shut down so game over" << endl << endl;
+        return;
+    }
     Player *curr = new HumanPlayer(color);
     Player *opp = new HumanPlayer(3 - color);
     CellCounter cc = CellCounter(board_);
@@ -81,16 +64,17 @@ void RemoteGame::run() {
         //prints the board at the beginning for the first player only
         if (i == 1 && curr->getSymbol() == 'X') board_->print();
         endGame = playOneTurn(curr, opp, cc, i);
-        if (endGame == 0 || cc.getCounter(' ') == 0) break;
+        if (!endGame || endGame == -1) break;
         i++;
     }
-    args = "close " + name;
-    socketWrite(args);
-    if (cc.getCounter(curr->getSymbol()) > cc.getCounter(opp->getSymbol()))
-        cout << "You Win!" << endl;
-    else if (cc.getCounter(curr->getSymbol()) < cc.getCounter(opp->getSymbol()))
-        cout << "You Lose :(" << endl;
-    else cout << "It's a tie!" << endl;
+    if (endGame) cout << "Server is going to shut down so game over" << endl << endl;
+    else {
+        if (cc.getCounter(curr->getSymbol()) > cc.getCounter(opp->getSymbol()))
+            cout << "You Win!" << endl;
+        else if (cc.getCounter(curr->getSymbol()) < cc.getCounter(opp->getSymbol()))
+            cout << "You Lose :(" << endl;
+        else cout << "It's a tie!" << endl;
+    }
     delete curr;
     delete opp;
 }
@@ -115,11 +99,13 @@ string RemoteGame::getCommand(string args) {
  * @return 1 to continue the game 0 otherwise
  */
 int RemoteGame::playOneTurn(Player *curr, Player *opp, CellCounter &cc, int &i) {
+    int n;
     bool flag = false;
     string play;
     //will happen every time except for the first player's first turn
     if (i != 1 || curr->getSymbol() != 'X') {
-        socketRead(play);
+        n = socketRead(play);
+        if (n) return -1;
         if (play.find("END_GAME") != string::npos) return 0;
         flag = readFromServer(curr, opp, play, cc);
     }
@@ -128,10 +114,12 @@ int RemoteGame::playOneTurn(Player *curr, Player *opp, CellCounter &cc, int &i) 
     // if current player has no moves left
     if (choice.getX() == -1 && choice.getY() == -1) {
         if (flag || cc.getCounter(' ') == 0) {
-            socketWrite("END_GAME");
+            n = socketWrite("END_GAME");
+            if (n) return -1;
             return 0;
         }
-        socketWrite("NO_MOVES");
+        n = socketWrite("NO_MOVES");
+        if (n) return -1;
         return 1;
     }
     //makes the move.
@@ -152,7 +140,8 @@ int RemoteGame::playOneTurn(Player *curr, Player *opp, CellCounter &cc, int &i) 
     cout << "Current board:" << endl << endl;
     board_->print();
     cout << "waiting for other player's move" << endl << endl;
-    socketWrite(play);
+    n = socketWrite(play);
+    if (n) return -1;
     return 1;
 }
 
@@ -191,34 +180,69 @@ bool RemoteGame::readFromServer(Player *curr, Player *opp, string &play, CellCou
  * @param x - x point
  * @param y  - y point
  */
-void RemoteGame::socketWrite(string s) {
+int RemoteGame::socketWrite(string s) {
     char buffer;
     int i = 0, n;
     do {
         buffer = s.at(i);
         n = write(clientSocket_, &buffer, sizeof(char));
-        if (n == -1) throw "error reading";
+        if (n == -1) return n;
         i++;
     } while (i < s.length());
     buffer = '\0';
     n = write(clientSocket_, &buffer, sizeof(char));
-    if (n == -1) throw "error reading";
+    if (n == -1) return n;
+    return 0;
 }
 
 /**
  * reads from the socket.
  * @param buffer to read into
  */
-void RemoteGame::socketRead(string &s) {
+int RemoteGame::socketRead(string &s) {
     int i = 0, n;
     char buffer;
     do {
         n = read(clientSocket_, &buffer, sizeof(char));
-        if (n == -1) throw "error reading";
+        if (n == -1) return n;
         if (buffer == '\0') break;
         s += buffer;
         i++;
     } while (true);
+    if (s == "\0") return -1;
+    return 0;
+}
+
+/**
+ * does the command the user uses and gives him his color at the end.
+ * @param sm sub menu
+ * @return the color or 0 if server disconnected.
+ */
+int RemoteGame::commandAndColor(SubMenu &sm) {
+    int n, color;
+    string command, args, buffer, colour;
+    do {
+        args = sm.runSubMenu();
+        //write command to the socket
+        n = socketWrite(args);
+        if (n) return 0;
+        command = getCommand(args);
+        //read answer from the server
+        n = socketRead(buffer);
+        if (n) return 0;
+        if (buffer == "-1") cout << "try again with a different name" << endl << endl;
+        else cout << buffer << endl;
+    } while (command == "list_games" || buffer == "-1");
+    // if we have joined a game or started a game correctly
+    string name = getGameName(args);
+    // reading the number that represents the colour
+    n = socketRead(colour);
+    if (n) return 0;
+    if (colour[0] == 'b')
+        color = 1;
+    else
+        color = 2;
+    return color;
 }
 
 /**
@@ -251,5 +275,5 @@ string RemoteGame::getGameName(string &args) {
 RemoteGame::~RemoteGame() {
     delete board_;
     delete logic_;
-    //close(clientSocket_);
+    close(clientSocket_);
 }

@@ -2,14 +2,18 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include <string.h>
+#include <pthread.h>
 #include <iostream>
 #include <vector>
 #include <cstdlib>
 #include "../include/Server.h"
+#include "../include/GameCollection.h"
 
 using namespace std;
 #define MAX_CONNECTED_CLIENTS 30
 
+pthread_mutex_t cancel_mutex;
+pthread_mutex_t thread_mutex;
 /**
  * THe server constructor.
  * @param port_ - identify a particular process running on the server
@@ -18,6 +22,7 @@ Server::Server(int port1, CommandsManager &commandsManager) {
     port_ = port1;
     cm = &commandsManager;
     serverSocket_ = 0;
+    shouldStop = false;
     cout << "Server" << endl;
 }
 
@@ -41,32 +46,32 @@ void Server::start() {
     *) &serverAddress, sizeof(serverAddress)) == -1) {
         throw "Error on binding";
     }
-    vector<pthread_t> threads;
     // Start listening to incoming connections
     listen(serverSocket_, MAX_CONNECTED_CLIENTS);
     // Define the client socket's structures
-    struct sockaddr_in clientAddress;
-    socklen_t clientAddressLen;
-    cout << "Waiting for client connections..." << endl;
-    while (true) {
-        // Accept a new client connection
-        int clientSocket = accept(serverSocket_, (struct sockaddr *)&clientAddress, &clientAddressLen);
-        //create a thread
-        cout << "Client connected" << endl;
-        if (clientSocket == -1) throw "Error on accept";
-        pthread_t thread;
-        Args *args = new Args();
-        args->cm = cm;
-        args->socket = clientSocket;
-        int rc = pthread_create(&thread, NULL, Server::handleClient, (void *)args);
-        if (rc) {
-            cout << "Error: unable to create thread, " << rc << endl;
-            exit(-1);
-        }
-        //pthread_join(thread, NULL);
-        threads.push_back(thread);
+    Server *s = this;
+    pthread_t t;
+    int rc = pthread_create(&t, NULL, Server::acceptClients, s);
+    if (rc) {
+        cout << "Error: unable to create thread, " << rc << endl;
+        _exit(-1);
     }
+    string exit;
+    while (true) {
+        cin >> exit;
+        if (exit == "exit") {
+            setShouldStop();
+            stop();
+            break;
+        }
+    }
+
 }
+
+/**
+ * changes should stop to true.
+ */
+void Server::setShouldStop() { shouldStop = true; }
 
 /**
  * reads the servery socket
@@ -129,5 +134,53 @@ void* Server::handleClient(void *arguments) {
         string arg = temp.substr(index + 1, temp.length());
         args->name = arg;
         args->cm->executeCommand(command, (void *) args);
+    }
+}
+
+/**
+ * waits for exit command from user
+ * @param server to use the server
+ * @return
+ */
+void Server::stop() {
+    GameCollection *gc = GameCollection::getInstance();
+    pthread_mutex_lock(&cancel_mutex);
+    for (int i = 0; i < gc->getList().size(); i++)
+        cm->executeCommand("close", &gc->getList()[i]);
+    for (int i = 0; i < threads.size(); i++) {
+        pthread_cancel(threads[i]);
+        pthread_mutex_unlock(&cancel_mutex);
+    }
+    close(serverSocket_);
+}
+
+/**
+ * accepts clients
+ * @param v server variable
+ * @return
+ */
+void* Server::acceptClients(void *v) {
+    Server *s = (Server *) v;
+    struct sockaddr_in clientAddress;
+    socklen_t clientAddressLen;
+    cout << "Waiting for client connections..." << endl;
+    while (!s->shouldStop) {
+        // Accept a new client connection
+        int clientSocket = accept(s->serverSocket_, (struct sockaddr *) &clientAddress, &clientAddressLen);
+        if (clientSocket == -1) throw "Error on accept";
+        //create a thread
+        cout << "Client connected" << endl;
+        pthread_t thread;
+        Args *args = new Args();
+        args->cm = s->cm;
+        args->socket = clientSocket;
+        int rc = pthread_create(&thread, NULL, Server::handleClient, (void *) args);
+        if (rc) {
+            cout << "Error: unable to create thread, " << rc << endl;
+            _exit(-1);
+        }
+        pthread_mutex_lock(&thread_mutex);
+        s->threads.push_back(thread);
+        pthread_mutex_unlock(&thread_mutex);
     }
 }

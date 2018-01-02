@@ -62,3 +62,9 @@ void GameHolder::setJoinable() {
 void GameHolder::setSocketPlayer2(int socket) {
     socketPlayer2 = socket;
 }
+
+/**
+ * sets the game's name
+ * @param s name to set to
+ */
+void GameHolder::setName(string s) { name = s; }
