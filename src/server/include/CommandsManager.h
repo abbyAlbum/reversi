@@ -13,8 +13,10 @@ public:
     CommandsManager();
     ~CommandsManager();
     void executeCommand(string command, void *args);
+    static CommandsManager * getInstance();
 private:
     map<string, Command *> commandsMap;
+    static CommandsManager *instance;
 };
 
 #endif //EX1_COMMANDSMANAGER_H

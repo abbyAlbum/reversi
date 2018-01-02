@@ -53,16 +53,18 @@ void RemoteGame::run() {
     int i = 1, endGame, color;
     string colour, buffer;
     SubMenu sm;
+    connectToServer();
     do {
-        connectToServer();
         args = sm.runSubMenu();
         //write command to the socket
         socketWrite(args);
         command = getCommand(args);
-        if(command == "join") break;
         //read answer from the server
-       socketRead(buffer);
-        cout << buffer << endl;
+        socketRead(buffer);
+        if (buffer == "-1")
+            cout << "try again with a different name" << endl << endl;
+        else
+            cout << buffer << endl;
     } while (command == "list_games" || buffer == "-1");
     // if we have joined a game or started a game correctly
     string name = getGameName(args);
@@ -82,10 +84,8 @@ void RemoteGame::run() {
         if (endGame == 0 || cc.getCounter(' ') == 0) break;
         i++;
     }
-    connectToServer();
     args = "close " + name;
     socketWrite(args);
-    close(clientSocket_);
     if (cc.getCounter(curr->getSymbol()) > cc.getCounter(opp->getSymbol()))
         cout << "You Win!" << endl;
     else if (cc.getCounter(curr->getSymbol()) < cc.getCounter(opp->getSymbol()))
@@ -251,4 +251,5 @@ string RemoteGame::getGameName(string &args) {
 RemoteGame::~RemoteGame() {
     delete board_;
     delete logic_;
+    //close(clientSocket_);
 }

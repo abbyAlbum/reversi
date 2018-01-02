@@ -35,6 +35,8 @@ void ServerFlow::handleClient() {
             num = passMessage(secondSocket, firstSocket);
         counter++;
         if(num == 0) {
+            CommandsManager *cm = CommandsManager::getInstance();
+            cm->executeCommand("close", gh);
             break;
         }
     }
@@ -55,7 +57,7 @@ int ServerFlow::passMessage(int &clientSocket1, int &clientSocket2) {
         return 0;
     }
     Server::writeSocket(clientSocket2, play);
-    if (play.find("END_GAME") != string::npos) {
+    if (play == "END_GAME") {
         return 0;
     }
     return 1;

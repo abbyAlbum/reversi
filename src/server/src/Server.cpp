@@ -63,9 +63,8 @@ void Server::start() {
             cout << "Error: unable to create thread, " << rc << endl;
             exit(-1);
         }
+        //pthread_join(thread, NULL);
         threads.push_back(thread);
-        // Close communication with the client
-       // close(clientSocket);
     }
 }
 

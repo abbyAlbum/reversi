@@ -20,9 +20,9 @@ int main() {
         port = x;
     }
     inFile.close();
-    CommandsManager cm = CommandsManager();
+    CommandsManager *cm = CommandsManager::getInstance();
     GameCollection *gc = GameCollection::getInstance();
-    Server server(port, cm);
+    Server server(port, *cm);
     try {
         server.start();
     } catch (const char *msg) {

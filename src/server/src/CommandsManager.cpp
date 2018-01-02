@@ -37,3 +37,15 @@ CommandsManager::~CommandsManager() {
         delete it->second;
     }
 }
+
+// Null, because instance will be initialized on demand.
+CommandsManager *CommandsManager::instance = 0;
+
+/**
+ * Gets an instance of command manager
+ * @return instance of commandmaneger
+ */
+CommandsManager* CommandsManager::getInstance() {
+    if (instance == 0) instance = new CommandsManager();
+    return instance;
+}

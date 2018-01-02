@@ -29,9 +29,11 @@ void JoinCommand::execute(void *args) {
                 gc->joinGame(i, arg->socket);
                 //sends this game to the server
                 ServerFlow sf(&gc->getList()[i]);
+                Server::writeSocket(arg->socket, "waiting for other player's move");
                 sf.handleClient();
-                break;
+                return;
             }
         }
     }
+    Server::writeSocket(arg->socket, "-1");
 }

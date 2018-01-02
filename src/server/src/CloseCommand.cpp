@@ -2,6 +2,7 @@
 // Created by abby on 26/12/17.
 //
 
+#include <unistd.h>
 #include "../include/GameCollection.h"
 #include "../include/CloseCommand.h"
 #include "../include/Server.h"
@@ -19,8 +20,14 @@ CloseCommand:: CloseCommand() {
  * @param args  - this game
  */
 void CloseCommand:: execute(void *args) {
-    Args *arg = (Args *)args;
-    gc->remove(arg->name);
-   //TODO CLOSE THREAD
-
+    for (int i = 0; i < gc->getList().size(); ++i) {
+        cout << gc->getList()[i].getName() << endl;
+    }
+    GameHolder *arg = (GameHolder *) args;
+    gc->remove(arg->getName());
+    for (int i = 0; i < gc->getList().size(); ++i) {
+        cout << gc->getList()[i].getName() << endl;
+    }
+    close(arg->getSocketPLayer1());
+    close(arg->getSocketPlayer2());
 }

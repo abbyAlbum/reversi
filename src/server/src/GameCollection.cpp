@@ -47,6 +47,10 @@ void GameCollection::joinGame(int i, int socket) {
 // Null, because instance will be initialized on demand.
 GameCollection *GameCollection::instance = 0;
 
+/**
+ * Gets an instance of game collection
+ * @return an instance of game collection
+ */
 GameCollection* GameCollection::getInstance() {
     if (instance == 0) instance = new GameCollection();
     return instance;

@@ -4,7 +4,7 @@
 
 #ifndef EX1_MENU_H
 #define EX1_MENU_H
-#define DEFAULT_SIZE 8
+#define DEFAULT_SIZE 4
 
 #include <iostream>
 #include "Player.h"
