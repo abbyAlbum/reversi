@@ -1,0 +1,365 @@
+commit cb2ef845dae56c5975f0ae3297fb2fdcadcce6a9
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Wed Jan 3 10:57:05 2018 +0200
+
+    fixed all problems - done
+
+commit 0543b99b4c06068c09c069c71e505018025fc704
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Tue Jan 2 22:02:38 2018 +0200
+
+    done
+
+commit 19527bdea2660f7a82585c25da362eb232a8e4da
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Tue Jan 2 16:12:55 2018 +0200
+
+    close command
+
+commit 0a557f4882cf5c913ba216853e8a51732ab084c8
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Sun Dec 31 22:19:41 2017 +0200
+
+    final stages
+
+commit 35bd012a56208ca3887f0c237c979c86b337a62a
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Fri Dec 29 13:44:24 2017 +0200
+
+    fixed initial read
+
+commit 66f00d73d277afc61ec61b4d17df5761b08329c5
+Author: Abby Album <a.album@hotmail.co.uk>
+Date:   Fri Dec 29 11:49:21 2017 +0200
+
+    fix write
+
+commit 965d16e898526efb3b3740d49319b449fb943e5b
+Author: Abby Album <a.album@hotmail.co.uk>
+Date:   Thu Dec 28 20:47:02 2017 +0200
+
+    read and write changes
+
+commit 5bd3bda65b771adb4de714cbb94dbb78b102c6e2
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Thu Dec 28 20:25:19 2017 +0200
+
+    fix reading
+
+commit ae668cd40242e8b98de90e6fadf325937dc5dd8b
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Thu Dec 28 18:18:43 2017 +0200
+
+    fix
+
+commit 8251926e0743f73c371e2d6a1ad09850822187e1
+Author: Abby Album <a.album@hotmail.co.uk>
+Date:   Thu Dec 28 14:33:19 2017 +0200
+
+    client changes almost done
+
+commit 1e596adb909b9ad1a7b5a34e3d8165ae0dc3c8ef
+Merge: dcb58f4 dac4626
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Thu Dec 28 12:47:29 2017 +0200
+
+    Merge branch 'master' of https://github.com/erm19/reversi
+    
+    # Conflicts:
+    #	src/server/include/CloseCommand.h
+    #	src/server/include/Command.h
+    #	src/server/include/CommandsManager.h
+    #	src/server/include/GameCollection.h
+    #	src/server/include/JoinCommand.h
+    #	src/server/include/PrintListCommand.h
+    #	src/server/include/Server.h
+    #	src/server/include/StartCommand.h
+    #	src/server/src/CloseCommand.cpp
+    #	src/server/src/CommandsManager.cpp
+    #	src/server/src/GameCollection.cpp
+    #	src/server/src/JoinCommand.cpp
+    #	src/server/src/PrintListCommand.cpp
+    #	src/server/src/Server.cpp
+    #	src/server/src/StartCommand.cpp
+
+commit dcb58f4f7f79adad2d06234fdd8df22806d2577e
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Thu Dec 28 12:46:18 2017 +0200
+
+    singleton and server updates
+
+commit dac46261ff83ec4c677dbd93a33945494a5312eb
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Thu Dec 28 00:10:16 2017 +0200
+
+    begin threads
+
+commit fabfea62c62e399f99481db31b25030c600087e8
+Author: Abby Album <a.album@hotmail.co.uk>
+Date:   Wed Dec 27 16:41:31 2017 +0200
+
+    commands finished and server begun
+
+commit 54f85872ec2614e6d258d58513f1facfa998e9a7
+Author: Abby Album <a.album@hotmail.co.uk>
+Date:   Tue Dec 26 12:56:14 2017 +0200
+
+    sync command
+
+commit 1ce6632ac127a490bb5b869241f656a84c255249
+Merge: fbbfdda c0efa97
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Tue Dec 26 12:44:32 2017 +0200
+
+    Merge branch 'master' of https://github.com/erm19/reversi
+    
+    # Conflicts:
+    #	CMakeLists.txt
+    #	server/Server.cpp
+    #	src/Menu.cpp
+    #	src/main.cpp
+
+commit fbbfdda5207a961c82dcf719289ee50f3b9f4492
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Tue Dec 26 12:42:12 2017 +0200
+
+    sync
+
+commit c0efa971faab8bec652b959666f42ddd122e017d
+Author: Abby Album <a.album@hotmail.co.uk>
+Date:   Tue Dec 26 12:40:18 2017 +0200
+
+    command updated
+
+commit 534ee2e484d93460cfc487847eb18a35aacdbb91
+Author: Abby Album <a.album@hotmail.co.uk>
+Date:   Sun Dec 24 15:27:29 2017 +0200
+
+    commands
+
+commit 9ab374ca4f9a804cfba133ea00f4e52a7d15d419
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Mon Dec 11 20:33:44 2017 +0200
+
+    final ex4
+
+commit b733c33dd3cdb73790ed713409303532635ac17a
+Author: Abby Album <a.album@hotmail.co.uk>
+Date:   Mon Dec 11 13:40:17 2017 +0200
+
+    finishing touches
+
+commit 77e9f5b2e54da8fdbbad565cf0e56a4e77633536
+Author: Abby Album <a.album@hotmail.co.uk>
+Date:   Sun Dec 10 13:19:12 2017 +0200
+
+    fixed end game issue
+
+commit 239073e5bc7f376f3ef8b6426888c00b442fede8
+Author: Abby Album <a.album@hotmail.co.uk>
+Date:   Sat Dec 9 23:20:13 2017 +0200
+
+    added server
+
+commit c57c2bd2df9d9a596fa431bc4bde42414c7081b1
+Author: Abby Album <a.album@hotmail.co.uk>
+Date:   Sat Dec 9 21:56:49 2017 +0200
+
+    fixed remote class issues
+
+commit adac6cc1f83ff8cb4aeb6eb980df502048594643
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Fri Dec 8 14:09:35 2017 +0200
+
+    changed menu, ready to run server
+
+commit 765d3a5ebaf96dce0c3ab6ded60532d572e42ebc
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Thu Dec 7 19:06:37 2017 +0200
+
+    added remote game handler
+
+commit 62995ab0a0265d3287dd99df409910db6f1942ce
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Wed Nov 29 14:36:03 2017 +0200
+
+    final ex3 version
+
+commit a3ed997fa07ff1982948de5b5982100e41ec0fdd
+Author: Abby Album <a.album@hotmail.co.uk>
+Date:   Tue Nov 28 16:23:11 2017 +0200
+
+    Board test
+
+commit 3f9beea11f21c79ab09f4ab1e59562b17d4b148f
+Author: Abby Album <a.album@hotmail.co.uk>
+Date:   Tue Nov 28 16:06:45 2017 +0200
+
+    fixed AI segmentation fault issue
+
+commit e051744e4c55167668ad36e76af9ddfcedc53acb
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Tue Nov 28 15:42:08 2017 +0200
+
+    changed variable name
+
+commit 4d8c02969e0e311c1b6e744cf74e63ba101cd3a5
+Merge: 716a381 2ab5eba
+Author: Abby Album <a.album@hotmail.co.uk>
+Date:   Tue Nov 28 15:22:02 2017 +0200
+
+    Merge branch 'master' of https://github.com/erm19/reversi
+
+commit 2ab5eba588dbf209837473f919355dd5ef88e327
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Tue Nov 28 15:37:20 2017 +0200
+
+    validity check on menu and logic test
+
+commit 716a3815e15a24587910e7accd83b1582527339d
+Author: Abby Album <a.album@hotmail.co.uk>
+Date:   Tue Nov 28 15:21:51 2017 +0200
+
+    AI test class
+
+commit 97a2a93d1db3c8da4a83b2394a273bc7e0e03701
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Tue Nov 28 12:41:03 2017 +0200
+
+    fixed gtest.h problem
+
+commit 27423627bd0336536cde9ffd7b7417ebe20a6c43
+Author: Abby Album <a.album@hotmail.co.uk>
+Date:   Mon Nov 27 20:51:15 2017 +0200
+
+    fixed AI bug
+
+commit 72daf6a052918db682f7bcf90f316fe86c80ec43
+Merge: 5f6fe68 2e93a52
+Author: Abby Album <a.album@hotmail.co.uk>
+Date:   Mon Nov 27 20:42:53 2017 +0200
+
+    Merge branch 'master' of https://github.com/erm19/reversi
+    
+    # Conflicts:
+    #	gtest_src/gtest/gtest.h
+    #	include/AIPlayer.h
+    #	include/BasicLogic.h
+    #	include/Board.h
+    #	include/Cell.h
+    #	include/CellCounter.h
+    #	include/GameFlow.h
+    #	include/GameLogic.h
+    #	include/HumanPlayer.h
+    #	include/Menu.h
+    #	include/Player.h
+    #	include/Point.h
+    #	src/AIPlayer.cpp
+    #	src/BasicLogic.cpp
+    #	src/Board.cpp
+    #	src/Cell.cpp
+    #	src/CellCounter.cpp
+    #	src/GameFlow.cpp
+    #	src/HumanPlayer.cpp
+    #	src/Menu.cpp
+    #	src/Point.cpp
+
+commit 5f6fe685364f50b4c305d5f567c806de86804c79
+Author: Abby Album <a.album@hotmail.co.uk>
+Date:   Mon Nov 27 20:39:01 2017 +0200
+
+    pointless changes
+
+commit 2e93a52e35b36539ebbcae669069990852f6ab5b
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Mon Nov 27 20:21:09 2017 +0200
+
+    merged projects
+
+commit d220edd6f399a735e92592531291e3357743e89d
+Merge: 4166f37 daecc38
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Mon Nov 27 20:16:20 2017 +0200
+
+    Merge remote-tracking branch 'origin/master'
+    
+    # Conflicts:
+    #	CMakeLists.txt
+
+commit 4166f37577589f4877726acba61cc011094c1eb7
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Mon Nov 27 20:02:26 2017 +0200
+
+    folders ready to test
+
+commit daecc38827db85393338ce69cdb3dd83958f234a
+Author: Abby Album <a.album@hotmail.co.uk>
+Date:   Mon Nov 27 12:50:41 2017 +0200
+
+    changed testing download
+
+commit 7108efbc1cfc115eb0aa77e88d5c02e683a9f25f
+Author: Abby Album <a.album@hotmail.co.uk>
+Date:   Sun Nov 26 13:42:43 2017 +0200
+
+    ready to test
+
+commit a41715573614b1af559e3549805cb33fb6b60160
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Sun Nov 26 12:42:30 2017 +0200
+
+    divided to folders with gtest
+
+commit 55f8ea43efb44efb670fb00d7f6995dce46d0f9d
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Sun Nov 26 10:32:48 2017 +0200
+
+    fixed bugs
+
+commit 1e7ca642e26de4b2110de59efbd5f427a3da4ff0
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Thu Nov 23 13:02:33 2017 +0200
+
+    added comments
+
+commit 78ccbddeaacb77f8779c1c127d38ae4e66b45ccf
+Author: Abby Album <a.album@hotmail.co.uk>
+Date:   Tue Nov 21 19:33:32 2017 +0200
+
+    ex3 almost done, a few minor additions needed
+
+commit f204ea329265233a1a9701768192af9b9a1c6dc5
+Author: erm19 <33811417+erm19@users.noreply.github.com>
+Date:   Tue Nov 21 17:38:47 2017 +0200
+
+    Delete AIPlayer.h
+
+commit acc45bef63f811ab8e4d7fc2d35c13f53784e5a2
+Author: erm19 <33811417+erm19@users.noreply.github.com>
+Date:   Tue Nov 21 17:38:33 2017 +0200
+
+    Delete AIPlayer.cpp
+
+commit e6f310b1618ad29df6dbbde33933b7fdf00a8531
+Author: Abby Album <a.album@hotmail.co.uk>
+Date:   Tue Nov 21 17:11:50 2017 +0200
+
+    new AIPLayer class
+
+commit f30d64f5a7a75a893c553bcafe30b21fb0aacd0a
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Tue Nov 21 16:47:19 2017 +0200
+
+    added the menu and fixed some issues with interfaces
+
+commit 303ad5ebebe9da8d659b51c8b9484b41bd67bcd7
+Author: eyal moskowitz <eyal.moskowitz@gmail.com>
+Date:   Tue Nov 21 14:05:08 2017 +0200
+
+    Initial Commit
+
+commit 8cb98a78e7c4be2804b8be302fcdef4fb6a3cd02
+Author: erm19 <33811417+erm19@users.noreply.github.com>
+Date:   Tue Nov 21 13:56:25 2017 +0200
+
+    Initial commit

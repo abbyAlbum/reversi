@@ -4,7 +4,6 @@
 
 #include <csignal>
 #include "../include/RemoteGame.h"
-#include "../include/SubMenu.h"
 
 /**
  * c'tor for RemoteGame
