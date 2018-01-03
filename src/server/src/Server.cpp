@@ -6,6 +6,7 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
+#include <csignal>
 #include "../include/Server.h"
 #include "../include/GameCollection.h"
 
@@ -103,6 +104,7 @@ int Server::writeSocket(int toWrite, string args) {
     int i = 0, n;
     do {
         buffer = args.at(i);
+        signal(SIGPIPE, SIG_IGN);
         n = write(toWrite, &buffer, sizeof(char));
         if (n == -1) throw "error reading";
         i++;
@@ -120,21 +122,50 @@ int Server::writeSocket(int toWrite, string args) {
  * @return
  */
 void* Server::handleClient(void *arguments) {
-    int index;
+    int index = -1;
     Args *args = (Args *)arguments;
-    string temp;
-    //reads the temp
-    Server::readSocket(args->socket, temp);
-    //split up temp
-    index = temp.find(" ");
-    if (index == -1)
-        args->cm->executeCommand(temp, (void *)args);
-    else {
-        string command = temp.substr(0, index);
-        string arg = temp.substr(index + 1, temp.length());
-        args->name = arg;
-        args->cm->executeCommand(command, (void *) args);
+    string temp = "-1";
+    while (index == -1 || temp == "-1") {
+        //reads the temp
+        temp = "";
+        Server::readSocket(args->socket, temp);
+        //split up temp
+        index = temp.find(" ");
+        if (index == -1)
+            args->cm->executeCommand(temp, (void *) args);
+        else {
+            string command = temp.substr(0, index);
+            string arg = temp.substr(index + 1, temp.length());
+            args->name = arg;
+            temp = "";
+            temp = checkStrings(command, arg);
+            args->cm->executeCommand(command, (void *) args);
+        }
     }
+}
+
+/**
+ * checks if the command we got was valid.
+ * @param command
+ * @param name of game
+ * @return "-1" if command is bad and "okay" otherwise
+ */
+string Server::checkStrings(string &command, string &name) {
+    GameCollection *gc = GameCollection::getInstance();
+    bool flag = false;
+    if (command == "start") {
+        for (int i = 0; i < gc->getList().size(); ++i) {
+            if (name == gc->getList()[i].getName())
+                flag = true;
+        }
+    } else {
+        for (int i = 0; i < gc->getList().size(); ++i) {
+            if (name == gc->getList()[i].getName() && !gc->getList()[i].isJoinable())
+                flag = true;
+        }
+    }
+    if (flag) return "-1";
+    else return "okay";
 }
 
 /**

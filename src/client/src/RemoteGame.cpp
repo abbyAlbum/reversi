@@ -2,6 +2,7 @@
 // Created by eyal on 07/12/17.
 //
 
+#include <csignal>
 #include "../include/RemoteGame.h"
 #include "../include/SubMenu.h"
 
@@ -185,6 +186,7 @@ int RemoteGame::socketWrite(string s) {
     int i = 0, n;
     do {
         buffer = s.at(i);
+        signal(SIGPIPE, SIG_IGN);
         n = write(clientSocket_, &buffer, sizeof(char));
         if (n == -1) return n;
         i++;
@@ -222,12 +224,14 @@ int RemoteGame::commandAndColor(SubMenu &sm) {
     int n, color;
     string command, args, buffer, colour;
     do {
+        args = "";
         args = sm.runSubMenu();
         //write command to the socket
         n = socketWrite(args);
         if (n) return 0;
         command = getCommand(args);
         //read answer from the server
+        buffer = "";
         n = socketRead(buffer);
         if (n) return 0;
         if (buffer == "-1") cout << "try again with a different name" << endl << endl;
