@@ -12,9 +12,8 @@
 
 using namespace std;
 #define MAX_CONNECTED_CLIENTS 30
+#define MAX_THREADS 6
 
-pthread_mutex_t cancel_mutex;
-pthread_mutex_t thread_mutex;
 /**
  * THe server constructor.
  * @param port_ - identify a particular process running on the server
@@ -24,6 +23,7 @@ Server::Server(int port1, CommandsManager &commandsManager) {
     cm = &commandsManager;
     serverSocket_ = 0;
     shouldStop = false;
+    deadPool = new ThreadPool(MAX_THREADS);
     cout << "Server" << endl;
 }
 
@@ -51,12 +51,9 @@ void Server::start() {
     listen(serverSocket_, MAX_CONNECTED_CLIENTS);
     // Define the client socket's structures
     Server *s = this;
-    pthread_t t;
-    int rc = pthread_create(&t, NULL, Server::acceptClients, s);
-    if (rc) {
-        cout << "Error: unable to create thread, " << rc << endl;
-        _exit(-1);
-    }
+    Task *task = new Task(acceptClients, s);
+    tasks.push_back(task);
+    deadPool->addTask(task);
     string exit;
     while (true) {
         cin >> exit;
@@ -175,12 +172,11 @@ string Server::checkStrings(string &command, string &name) {
  */
 void Server::stop() {
     GameCollection *gc = GameCollection::getInstance();
-    pthread_mutex_lock(&cancel_mutex);
     for (int i = 0; i < gc->getList().size(); i++)
         cm->executeCommand("close", &gc->getList()[i]);
-    for (int i = 0; i < threads.size(); i++) {
-        pthread_cancel(threads[i]);
-        pthread_mutex_unlock(&cancel_mutex);
+    deadPool->terminate();
+    for (int j = 0; j < tasks.size(); ++j) {
+        delete tasks[j];
     }
     close(serverSocket_);
 }
@@ -201,17 +197,11 @@ void* Server::acceptClients(void *v) {
         if (clientSocket == -1) throw "Error on accept";
         //create a thread
         cout << "Client connected" << endl;
-        pthread_t thread;
         Args *args = new Args();
         args->cm = s->cm;
         args->socket = clientSocket;
-        int rc = pthread_create(&thread, NULL, Server::handleClient, (void *) args);
-        if (rc) {
-            cout << "Error: unable to create thread, " << rc << endl;
-            _exit(-1);
-        }
-        pthread_mutex_lock(&thread_mutex);
-        s->threads.push_back(thread);
-        pthread_mutex_unlock(&thread_mutex);
+        Task *task = new Task(handleClient, args);
+        s->tasks.push_back(task);
+        s->deadPool->addTask(task);
     }
 }

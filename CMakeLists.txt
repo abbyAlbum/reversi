@@ -28,7 +28,7 @@ set(SOURCE_FILES_TEST ./src/client/include/Board.h ./src/client/src/Board.cpp ./
         ./src/client/include/AIPlayer.h ./src/client/tests/gtest_main.cpp ./src/client/tests/test_BasicLogic.cpp
         ./src/client/tests/test_AIPlayer.cpp ./src/client/tests/test_Board.cpp src/client/include/SubMenu.h
         ./src/server/include/GameCollection.h ./src/server/include/GameHolder.h ./src/server/include/CloseCommand.h
-        ./src/server/include/ServerFlow.h)
+        ./src/server/include/ServerFlow.h ./src/server/include/Task.h ./src/server/src/ThreadPool.cpp ./src/server/include/ThreadPool.h)
 add_executable(ReversiTest ${SOURCE_FILES_TEST} ${SOURCE_FILES})
 target_link_libraries(ReversiTest gtest gtest_main)
 
@@ -38,5 +38,5 @@ set(SERVER_SRC_FILES ./src/server/src/Server.cpp ./src/server/include/Server.h .
         ./src/server/include/CommandsManager.h ./src/server/include/Command.h ./src/server/src/GameCollection.cpp
         ./src/server/src/GameHolder.cpp ./src/server/src/CloseCommand.cpp ./src/server/src/ServerFlow.cpp
         ./src/server/include/GameCollection.h ./src/server/include/GameHolder.h ./src/server/include/CloseCommand.h
-        ./src/server/include/ServerFlow.h)
+        ./src/server/include/ServerFlow.h ./src/server/include/Task.h ./src/server/src/ThreadPool.cpp ./src/server/include/ThreadPool.h)
 add_executable(server ${SERVER_SRC_FILES} ./src/server/src/main.cpp)

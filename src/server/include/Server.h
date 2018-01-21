@@ -6,6 +6,7 @@
 #define SERVER_SERVER_H
 
 #include "CommandsManager.h"
+#include "ThreadPool.h"
 
 typedef struct {
     string name;
@@ -29,6 +30,8 @@ private:
     CommandsManager *cm;
     vector<pthread_t> threads;
     bool shouldStop;
+    ThreadPool *deadPool;
+    vector<Task *> tasks;
 
     void setShouldStop();
     void stop();
